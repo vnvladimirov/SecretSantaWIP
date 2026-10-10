@@ -1,0 +1,29 @@
+@model IEnumerable<SecretSanta.Models.Event>
+
+@{
+    ViewData["Title"] = "Events";
+}
+
+<h1>Events</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Budget</th>
+            <th>Organizer</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.EventDate.ToString("dd MMM yyyy")</td>
+                <td>@item.Budget.ToString("0.00")</td>
+                <td>@item.OrganizerName</td>
+            </tr>
+        }
+    </tbody>
+</table>
