@@ -24,7 +24,7 @@ public class Event
     public string OrganizerName { get; set; } = string.Empty;
     [Required]
     [EmailAddress]
-    [MaxLength(50)]
+    [MaxLength(100)]
     public string OrganizerEmail { get; set; } = string.Empty;
 
     public virtual ICollection<Participant> Participants { get; set; } = new List<Participant>();

@@ -1,0 +1,60 @@
+@model SecretSanta.Models.Event
+
+@{
+    ViewData["Title"] = "Create Event"; 
+}
+
+<h1>Create Event</h1>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+     </div> 
+
+<div class="mb-3">
+    <label asp-for="Description" class="form-label"></label>
+    <input asp-for="Description" class="form-control" />
+    <span asp-validation-for="Description" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="EventDate" class="form-label"></label>
+    <input asp-for="EventDate" class="form-control" />
+    <span asp-validation-for="EventDate" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Budget" class="form-label"></label>
+    <input asp-for="Budget" class="form-control" />
+    <span asp-validation-for="Budget" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="MinParticipants" class="form-label"></label>
+    <input asp-for="MinParticipants" class="form-control" />
+    <span asp-validation-for="MinParticipants" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="OrganizerName" class="form-label"></label>
+    <input asp-for="OrganizerName" class="form-control" />
+    <span asp-validation-for="OrganizerName" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="OrganizerEmail" class="form-label"></label>
+    <input asp-for="OrganizerEmail" class="form-control" />
+    <span asp-validation-for="OrganizerEmail" class="text-danger"></span>
+</div>
+
+<button type="submit" class="btn btn-primary">Create</button>
+<a asp-action="Index" class="btn btn-secondary">Back to list</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
