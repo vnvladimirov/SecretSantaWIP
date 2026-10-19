@@ -23,6 +23,14 @@
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
+    <div class="mb-3">
+        <label asp-for="PartnerId" class="form-label"></label>
+        <select asp-for="PartnerId" asp-items="ViewBag.Partner" class="form-select">
+            <option value="">-- No partner --</option>
+        </select>
+        <span asp-validation-for="PartnerId" class="text-danger"></span>
+    </div>
+
     <button type="submit" class="btn btn-primary">Edit</button>
     <a asp-controller="Events" asp-action="Details" asp-route-id="@Model.EventId" class="btn btn-secondary">Cancel</a>
 </form>
