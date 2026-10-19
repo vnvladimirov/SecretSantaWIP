@@ -45,7 +45,9 @@ public class EventsController : Controller
             return NotFound();
         }
 
-        var item = await _context.Events.FirstOrDefaultAsync(e => e.Id == id);
+        var item = await _context.Events
+        .Include(e => e.Participants)
+        .FirstOrDefaultAsync(e => e.Id == id);
         if (item == null)
         {
             return NotFound();

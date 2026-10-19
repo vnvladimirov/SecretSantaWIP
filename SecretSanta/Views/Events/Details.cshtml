@@ -26,5 +26,33 @@
     <dd class="col-sm-10">@Model.OrganizerEmail</dd>
 </dl>
 
+<h3>Participants (@Model.Participants.Count / minimum @Model.MinParticipants)</h3>
+
+<a asp-controller="Participants" asp-action="Create" asp-route-eventId="@Model.Id" class="btn btn-success mb-3">Add
+    participant</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model.Participants)
+            {
+                <tr>
+                    <td>@p.Name</td>
+                    <td>@p.Email</td>
+                    <td>
+                        <a asp-controller="Participants" asp-action="Edit" asp-route-id="@p.Id">Edit</a> |
+                        <a asp-controller="Participants" asp-action="Delete" asp-route-id="@p.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
 <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
 <a asp-action="Index" class="btn btn-secondary">Back to list</a>
