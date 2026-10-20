@@ -224,6 +224,41 @@ namespace SecretSanta.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("SecretSanta.Models.Assignment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GiverId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReceiverId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Round")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GiverId");
+
+                    b.HasIndex("ReceiverId");
+
+                    b.HasIndex("EventId", "Round", "GiverId")
+                        .IsUnique();
+
+                    b.HasIndex("EventId", "Round", "ReceiverId")
+                        .IsUnique();
+
+                    b.ToTable("Assignments");
+                });
+
             modelBuilder.Entity("SecretSanta.Models.Event", b =>
                 {
                     b.Property<int>("Id")
@@ -252,8 +287,8 @@ namespace SecretSanta.Migrations
 
                     b.Property<string>("OrganizerEmail")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("OrganizerName")
                         .IsRequired()
@@ -350,6 +385,33 @@ namespace SecretSanta.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SecretSanta.Models.Assignment", b =>
+                {
+                    b.HasOne("SecretSanta.Models.Event", "Event")
+                        .WithMany("Assignments")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SecretSanta.Models.Participant", "Giver")
+                        .WithMany()
+                        .HasForeignKey("GiverId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SecretSanta.Models.Participant", "Receiver")
+                        .WithMany()
+                        .HasForeignKey("ReceiverId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+
+                    b.Navigation("Giver");
+
+                    b.Navigation("Receiver");
+                });
+
             modelBuilder.Entity("SecretSanta.Models.Participant", b =>
                 {
                     b.HasOne("SecretSanta.Models.Event", "Event")
@@ -370,6 +432,8 @@ namespace SecretSanta.Migrations
 
             modelBuilder.Entity("SecretSanta.Models.Event", b =>
                 {
+                    b.Navigation("Assignments");
+
                     b.Navigation("Participants");
                 });
 #pragma warning restore 612, 618

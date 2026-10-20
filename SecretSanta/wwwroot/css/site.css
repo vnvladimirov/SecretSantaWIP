@@ -1,6 +1,20 @@
 html {
   font-size: 14px;
 }
+@font-face {
+  font-family: "PressStart2P";
+  src: url("/wwwroot/Fonts/PressStart2P.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+   font-display: swap;
+}
+@font-face {
+  font-family: "PressStart2P";
+  src: url("/wwwroot/Fonts/PressStart2P.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+   font-display: swap;
+}
 
 @media (min-width: 768px) {
   html {
@@ -15,6 +29,17 @@ html {
 html {
   position: relative;
   min-height: 100%;
+}
+body{
+  font-family: "PressStart2P", monospace;
+}
+
+button, input, textarea {
+  font-family: inherit;
+}
+
+h1, h2, h3{
+  line-height: 1.6;
 }
 
 body {

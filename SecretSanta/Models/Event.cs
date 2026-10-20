@@ -29,4 +29,6 @@ public class Event
 
     public virtual ICollection<Participant> Participants { get; set; } = new List<Participant>();
 
+    public ICollection<Assignment> Assignments { get; set; } = new List<Assignment>();
+
 }
