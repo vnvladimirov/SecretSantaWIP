@@ -1,0 +1,12 @@
+@model SecretSanta.Models.Event
+
+<dl class="row">
+    <dt class="col-sm-2">Date</dt>
+    <dd class="col-sm-10">@Model.EventDate.ToString("dd MM yyyy")</dd>
+        
+    <dt class="col-sm-2">Budget</dt>
+    <dd class="col-sm-10">@Model.Budget.ToString("0.00")</dd>
+
+    <dt class="col-sm-2">Organizer</dt>
+    <dd class="col-sm-10">@Model.OrganizerName</dd>
+</dl>

@@ -1,0 +1,13 @@
+@model int
+
+@{
+    ViewData["Title"] = Model == 404 ? "Page not found" : "Something went wrong";
+}
+
+<div class="text-center py-5">
+    <h1 class="display-3">@Model</h1>
+    <p class="lead">
+        @(Model == 404 ? "We couldn't find what you were looking for." : "Something went wrong. Please try again.")
+    </p>
+    <a asp-controller="Events" asp-action="Index" class="btn btn-primary">Back to events</a>
+</div>
