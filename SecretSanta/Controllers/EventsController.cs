@@ -49,8 +49,7 @@ public class EventsController(ApplicationDbContext context, IDrawService drawSer
 
         var item = await _context.Events
         .Include(e => e.Participants)
-        .Include(e => e.Assignments).ThenInclude(a => a.Giver)
-        .Include(e => e.Assignments).ThenInclude(a => a.Receiver)
+        .Include(e => e.Assignments)
         .FirstOrDefaultAsync(e => e.Id == id);
 
         if (item == null)

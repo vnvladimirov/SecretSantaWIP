@@ -1,0 +1,17 @@
+@model SecretSanta.Models.ViewModels.RevealViewModel;
+
+@{
+    ViewData["Title"] = "Your Secret santa";
+}
+
+<h1>Hello @Model.ParticipantName</h1>
+
+@if (Model.ReceiverName != null)
+{
+    <p>In <strong>@Model.EventName</strong>, you are the Secret Santa for:</p>
+    <h2>@Model.ReceiverName</h2>
+}
+else
+{
+    <p>The draw for <strong>@Model.EventName</strong> hasn't been made yet. Come back later!</p>
+}

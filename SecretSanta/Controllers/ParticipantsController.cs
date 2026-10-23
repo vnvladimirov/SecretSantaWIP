@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SecretSanta.Data;
 using SecretSanta.Models;
+using SecretSanta.Models.ViewModels;
 using SQLitePCL;
 
 namespace SecretSanta.Controllers;
@@ -146,7 +147,7 @@ public class ParticipantsController : Controller
         return RedirectToAction("Details", "Events", new { id = participant.EventId });
     }
 
-    
+
     [HttpGet]
     public async Task<IActionResult> Delete(int? id)
     {
@@ -186,9 +187,55 @@ public class ParticipantsController : Controller
             participant.PartnerId = null;
         }
 
+        var assignments = await _context.Assignments
+        .Where(a => a.GiverId == id || a.ReceiverId == id)
+        .ToListAsync();
+
+        _context.Assignments.RemoveRange(assignments);
         _context.Participants.Remove(participant);
         await _context.SaveChangesAsync();
 
         return RedirectToAction("Details", "Events", new { id = eventId });
+    }
+    [HttpGet]
+    public async Task<IActionResult> Reveal(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var participant = await _context.Participants
+        .Include(p => p.Event)
+        .FirstOrDefaultAsync(p => p.Id == id);
+
+        if (participant == null)
+        {
+            return NotFound();
+        }
+
+        var latestRound = await _context.Assignments
+        .Where(a => a.EventId == participant.EventId)
+        .MaxAsync(a => (int?)a.Round);
+
+        string? recieverName = null;
+        if (latestRound != null)
+        {
+            var assignment = await _context.Assignments
+            .Include(a => a.Receiver)
+            .FirstOrDefaultAsync(a => a.EventId == participant.EventId
+            && a.Round == latestRound
+            && a.GiverId == participant.Id);
+
+            recieverName = assignment?.Receiver.Name;
+        }
+
+        return View(new RevealViewModel
+        {
+            EventId = participant.EventId,
+            EventName = participant.Event.Name,
+            ParticipantName = participant.Name,
+            ReceiverName = recieverName
+        });
     }
 }
