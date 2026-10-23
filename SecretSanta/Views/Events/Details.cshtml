@@ -6,6 +6,15 @@
 
 <h1>@Model.Name</h1>
 
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-error">@TempData["Error"]</div>
+}
+
 <dl class="row">
     <dt class="col-sm-2">Description</dt>
     <dd class="col-sm-10">@Model.Description</dd>
@@ -27,6 +36,21 @@
 </dl>
 
 <h3>Participants (@Model.Participants.Count / minimum @Model.MinParticipants)</h3>
+
+@{
+    var canDraw = Model.Participants.Count >= Model.MinParticipants;
+}
+
+<form asp-action="Draw" asp-route-id="@Model.Id" method="post" class="d-inline">
+    <button type="submit" class="btn btn-warning" disabled="@(!canDraw)">Draw names</button>
+</form>
+
+@if (!canDraw)
+{
+    <span class="text-muted ms-2">
+        @(Model.MinParticipants - Model.Participants.Count) more participants needed
+    </span>
+}
 
 <a asp-controller="Participants" asp-action="Create" asp-route-eventId="@Model.Id" class="btn btn-success mb-3">Add
     participant</a>
@@ -53,6 +77,30 @@
             }
         </tbody>
     </table>
+
+    @if (Model.Assignments.Any())
+    {
+        var lastRound = Model.Assignments.Max(a => a.Round);
+
+        <h3>Draw results (round @lastRound)</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Giver</th>
+                    <th>Receiver</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var a in Model.Assignments.Where(a => a.Round == lastRound))
+                {
+                    <tr>
+                        <td>@a.Giver.Name</td>
+                        <td>@a.Receiver.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 
 <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
 <a asp-action="Index" class="btn btn-secondary">Back to list</a>

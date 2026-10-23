@@ -3,14 +3,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SecretSanta.Data;
 using SecretSanta.Models;
+using SecretSanta.Services;
 using SQLitePCL;
 
 namespace SecretSanta.Controllers;
 
 
-public class EventsController : Controller
+public class EventsController(ApplicationDbContext context, IDrawService drawService) : Controller
 {
-    private readonly ApplicationDbContext _context;
+    private readonly ApplicationDbContext _context = context;
+    private readonly IDrawService _drawService = drawService;
 
     public async Task<IActionResult> Index()
     {
@@ -22,7 +24,7 @@ public class EventsController : Controller
     public IActionResult Create()
     {
         return View();
-    } 
+    }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -47,7 +49,10 @@ public class EventsController : Controller
 
         var item = await _context.Events
         .Include(e => e.Participants)
+        .Include(e => e.Assignments).ThenInclude(a => a.Giver)
+        .Include(e => e.Assignments).ThenInclude(a => a.Receiver)
         .FirstOrDefaultAsync(e => e.Id == id);
+
         if (item == null)
         {
             return NotFound();
@@ -133,9 +138,11 @@ public class EventsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-
-    public EventsController(ApplicationDbContext context)
+    public async Task<IActionResult> Draw(int id)
     {
-        _context = context;
+        var result = await _drawService.DrawAsync(id);
+        TempData[result.Success ? "Success" : "Error"] = result.Success ? "The draw is complete!" : result.Error;
+
+        return RedirectToAction(nameof(Details), new { id });
     }
 }
