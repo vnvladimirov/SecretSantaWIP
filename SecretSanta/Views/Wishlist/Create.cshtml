@@ -1,0 +1,66 @@
+@model SecretSanta.Models.WishlistItem
+
+@{
+    ViewData["Title"] = "Add Gift Idea";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h1 class="h3 mb-2">Add a gift idea</h1>
+                    <p class="text-muted mb-4">
+                        Add something to the participant's wishlist.
+                    </p>
+
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                        <input type="hidden" asp-for="ParticipantId" />
+
+                        <div class="mb-3">
+                            <label asp-for="Title" class="form-label">
+                                Gift name
+                            </label>
+                            <input asp-for="Title" class="form-control" placeholder="e.g. Board game" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label">
+                                Description
+                            </label>
+                            <textarea asp-for="Description" class="form-control" rows="3"
+                                      placeholder="Add preferences or details..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="ProductUrl" class="form-label">
+                                Product link (optional)
+                            </label>
+                            <input asp-for="ProductUrl" class="form-control" placeholder="https://example.com/gift" />
+                            <span asp-validation-for="ProductUrl" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" asp-route-participantId="@Model.ParticipantId"
+                               class="btn btn-outline-secondary">
+                                Cancel
+                            </a>
+
+                            <button type="submit" class="btn btn-success">
+                                Save gift idea
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

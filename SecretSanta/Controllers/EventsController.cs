@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,15 +10,19 @@ using SQLitePCL;
 
 namespace SecretSanta.Controllers;
 
-
+[Authorize]
 public class EventsController(ApplicationDbContext context, IDrawService drawService) : Controller
 {
     private readonly ApplicationDbContext _context = context;
     private readonly IDrawService _drawService = drawService;
 
+    private string CurrentUserID => User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
     public async Task<IActionResult> Index()
     {
-        var events = await _context.Events.ToListAsync();
+        var events = await _context.Events
+        .Where(e=> e.CreatorId == CurrentUserID)
+        .ToListAsync();
         return View(events);
     }
 
@@ -32,7 +38,11 @@ public class EventsController(ApplicationDbContext context, IDrawService drawSer
         [Bind("Name,Description,EventDate,Budget,MinParticipants,OrganizerName,OrganizerEmail")] Event model)
     {
         if (!ModelState.IsValid)
+        {
             return View(model);
+        }
+
+        model.CreatorId = CurrentUserID;
 
         _context.Events.Add(model);
         await _context.SaveChangesAsync();
@@ -48,6 +58,7 @@ public class EventsController(ApplicationDbContext context, IDrawService drawSer
         }
 
         var item = await _context.Events
+        .Where(e => e.Id == id && e.CreatorId == CurrentUserID)
         .Include(e => e.Participants)
         .Include(e => e.Assignments)
         .FirstOrDefaultAsync(e => e.Id == id);
@@ -68,7 +79,9 @@ public class EventsController(ApplicationDbContext context, IDrawService drawSer
             return NotFound();
         }
 
-        var item = await _context.Events.FindAsync(id);
+        var item = await _context.Events
+        .FirstOrDefaultAsync(e => e.Id == id && e.CreatorId == CurrentUserID);
+
         if (item == null)
         {
             return NotFound();
@@ -85,38 +98,58 @@ public class EventsController(ApplicationDbContext context, IDrawService drawSer
         if (id != model.Id)
         {
             return NotFound();
-
         }
-
+            
         if (!ModelState.IsValid)
         {
             return View(model);
         }
+            
+        var item = await _context.Events
+            .FirstOrDefaultAsync(e =>
+                e.Id == id && e.CreatorId == CurrentUserID);
+
+        if (item == null)
+        {
+            return NotFound();
+        }
+
+        item.Name = model.Name;
+        item.Description = model.Description;
+        item.EventDate = model.EventDate;
+        item.Budget = model.Budget;
+        item.MinParticipants = model.MinParticipants;
+        item.OrganizerName = model.OrganizerName;
+        item.OrganizerEmail = model.OrganizerEmail;
+
         try
         {
-            _context.Update(model);
             await _context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!await _context.Events.AnyAsync(e => e.Id == id))
-            {
-                return NotFound();
+            var stillExists = await _context.Events
+                .AnyAsync(e => e.Id == id &&
+                               e.CreatorId == CurrentUserID);
 
-            }
+            if (!stillExists)
+                return NotFound();
 
             throw;
         }
 
         return RedirectToAction(nameof(Index));
     }
+
     [HttpGet]
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null)
             return NotFound();
 
-        var item = await _context.Events.FirstOrDefaultAsync(e => e.Id == id);
+        var item = await _context.Events
+        .FirstOrDefaultAsync(e => e.Id == id && e.CreatorId == CurrentUserID);
+
         if (item == null)
             return NotFound();
 
@@ -127,7 +160,9 @@ public class EventsController(ApplicationDbContext context, IDrawService drawSer
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(int id)
     {
-        var item = await _context.Events.FindAsync(id);
+        var item = await _context.Events
+        .FirstOrDefaultAsync(e => e.Id == id && e.CreatorId == CurrentUserID);
+
         if (item != null)
         {
             _context.Events.Remove(item);
@@ -139,6 +174,15 @@ public class EventsController(ApplicationDbContext context, IDrawService drawSer
 
     public async Task<IActionResult> Draw(int id)
     {
+        var eventExists = await _context.Events
+           .AnyAsync(e => e.Id == id &&
+                          e.CreatorId == CurrentUserID);
+
+        if (!eventExists)
+        {
+            return NotFound();
+        }
+
         var result = await _drawService.DrawAsync(id);
         TempData[result.Success ? "Success" : "Error"] = result.Success ? "The draw is complete!" : result.Error;
 

@@ -1,5 +1,9 @@
-namespace SecretSanta.Models;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+
+
+namespace SecretSanta.Models;
+
 
 public class WishlistItem
 {
@@ -12,8 +16,10 @@ public class WishlistItem
     public string? Description { get; set; }
     [Url]
     [MaxLength(2048)]
-    public string? ProductURL { get; set; }
+    public string? ProductUrl { get; set; }
 
     public int ParticipantId { get; set; }
+    
+    [ValidateNever]
     public Participant Participant { get; set; } = null!;
 }

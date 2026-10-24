@@ -270,6 +270,9 @@ namespace SecretSanta.Migrations
                     b.Property<decimal>("Budget")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Description")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
@@ -296,6 +299,8 @@ namespace SecretSanta.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Events");
                 });
@@ -334,6 +339,38 @@ namespace SecretSanta.Migrations
                     b.ToTable("Participants");
                 });
 
+            modelBuilder.Entity("SecretSanta.Models.ParticipantInvitation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("ExpiresAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ParticipantId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("RevokedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TokenHash")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParticipantId");
+
+                    b.HasIndex("TokenHash")
+                        .IsUnique();
+
+                    b.ToTable("ParticipantInvitations");
+                });
+
             modelBuilder.Entity("SecretSanta.Models.WishlistItem", b =>
                 {
                     b.Property<int>("Id")
@@ -349,7 +386,7 @@ namespace SecretSanta.Migrations
                     b.Property<int>("ParticipantId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ProductURL")
+                    b.Property<string>("ProductUrl")
                         .HasMaxLength(2048)
                         .HasColumnType("nvarchar(2048)");
 
@@ -443,6 +480,16 @@ namespace SecretSanta.Migrations
                     b.Navigation("Receiver");
                 });
 
+            modelBuilder.Entity("SecretSanta.Models.Event", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Creator");
+                });
+
             modelBuilder.Entity("SecretSanta.Models.Participant", b =>
                 {
                     b.HasOne("SecretSanta.Models.Event", "Event")
@@ -459,6 +506,17 @@ namespace SecretSanta.Migrations
                     b.Navigation("Event");
 
                     b.Navigation("Partner");
+                });
+
+            modelBuilder.Entity("SecretSanta.Models.ParticipantInvitation", b =>
+                {
+                    b.HasOne("SecretSanta.Models.Participant", "Participant")
+                        .WithMany()
+                        .HasForeignKey("ParticipantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Participant");
                 });
 
             modelBuilder.Entity("SecretSanta.Models.WishlistItem", b =>

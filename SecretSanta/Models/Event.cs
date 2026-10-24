@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 namespace SecretSanta.Models;
 
 public class Event
@@ -27,6 +28,9 @@ public class Event
     [MaxLength(100)]
     public string OrganizerEmail { get; set; } = string.Empty;
 
+    public string? CreatorId { get; set; } = string.Empty;
+
+    public IdentityUser? Creator { get; set; } = null!;
     public virtual ICollection<Participant> Participants { get; set; } = new List<Participant>();
 
     public ICollection<Assignment> Assignments { get; set; } = new List<Assignment>();

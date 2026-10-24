@@ -19,6 +19,12 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     {
         base.OnModelCreating(builder);
 
+        builder.Entity<Event>()
+        .HasOne(e => e.Creator)
+        .WithMany()
+        .HasForeignKey(e => e.CreatorId)
+        .OnDelete(DeleteBehavior.Restrict);
+
         builder.Entity<Participant>()
         .HasOne(p => p.Partner)
         .WithMany()

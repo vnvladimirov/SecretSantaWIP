@@ -9,7 +9,7 @@ public class ParticipantInvitation
     public string TokenHash { get; set; } = string.Empty;
     public int ParticipantId { get; set; }
     public Participant Participant { get; set; } = null!;
-    public DateTime ExpiresAtUTC { get; set; }
-    public DateTime? RevokedAtUTC { get; set; }
+    public DateTime ExpiresAtUtc { get; set; }
+    public DateTime? RevokedAtUtc { get; set; }
 
 }
