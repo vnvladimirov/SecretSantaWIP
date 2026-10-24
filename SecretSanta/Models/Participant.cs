@@ -19,4 +19,6 @@ public class Participant
     public int? PartnerId { get; set; }
     public Participant? Partner { get; set; }
 
+    public ICollection<WishlistItem> WishlistItems { get; set; } = new List<WishlistItem>();
+
 }

@@ -334,6 +334,37 @@ namespace SecretSanta.Migrations
                     b.ToTable("Participants");
                 });
 
+            modelBuilder.Entity("SecretSanta.Models.WishlistItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("ParticipantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductURL")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParticipantId");
+
+                    b.ToTable("WishlistItems");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -430,11 +461,27 @@ namespace SecretSanta.Migrations
                     b.Navigation("Partner");
                 });
 
+            modelBuilder.Entity("SecretSanta.Models.WishlistItem", b =>
+                {
+                    b.HasOne("SecretSanta.Models.Participant", "Participant")
+                        .WithMany("WishlistItems")
+                        .HasForeignKey("ParticipantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Participant");
+                });
+
             modelBuilder.Entity("SecretSanta.Models.Event", b =>
                 {
                     b.Navigation("Assignments");
 
                     b.Navigation("Participants");
+                });
+
+            modelBuilder.Entity("SecretSanta.Models.Participant", b =>
+                {
+                    b.Navigation("WishlistItems");
                 });
 #pragma warning restore 612, 618
         }
