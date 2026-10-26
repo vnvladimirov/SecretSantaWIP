@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer;
 using SecretSanta.Data;
 using SecretSanta.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using SecretSanta.Security;
+using Microsoft.AspNetCore.Authentication;
 
 namespace SecretSanta;
+
 
 public class Program
 {
@@ -19,8 +22,75 @@ public class Program
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
         builder.Services.AddScoped<IDrawService, DrawService>();
 
-        builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+
+        builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+            options.SignIn.RequireConfirmedAccount = true)
             .AddEntityFrameworkStores<ApplicationDbContext>();
+
+        // Separate authentication cookie for Secret Santa participants.
+        builder.Services
+            .AddAuthentication()
+            .AddCookie(ParticipantCookieDefaults.AuthenticationScheme, options =>
+            {
+                options.Cookie.Name = "SecretSanta.Participant";
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SameSite = SameSiteMode.Lax;
+
+                options.ExpireTimeSpan = TimeSpan.FromHours(8);
+                options.SlidingExpiration = false;
+                options.LoginPath = "/ParticipantAccess/Enter";
+                options.AccessDeniedPath = "/ParticipantAccess/Denied";
+
+                options.Events.OnValidatePrincipal = async context =>
+                {
+                    var participantIdValue = context.Principal?
+                        .FindFirst(ParticipantCookieDefaults.ParticipantIdClaim)?.Value;
+
+                    var eventIdValue = context.Principal?
+                        .FindFirst(ParticipantCookieDefaults.EventIdClaim)?.Value;
+
+                    var invitationIdValue = context.Principal?
+                        .FindFirst(ParticipantCookieDefaults.InvitationIdClaim)?.Value;
+
+                    int participantId = 0;
+                    int eventId = 0;
+                    int invitationId = 0;
+
+                    bool validClaims =
+                        int.TryParse(participantIdValue, out participantId) &&
+                        int.TryParse(eventIdValue, out eventId) &&
+                        int.TryParse(invitationIdValue, out invitationId);
+
+                    if (!validClaims)
+                    {
+                        context.RejectPrincipal();
+                        await context.HttpContext.SignOutAsync(
+                            ParticipantCookieDefaults.AuthenticationScheme);
+                        return;
+                    }
+
+                    var db = context.HttpContext.RequestServices
+                        .GetRequiredService<ApplicationDbContext>();
+
+                    bool invitationIsValid = await db.ParticipantInvitations
+                        .AnyAsync(i =>
+                            i.Id == invitationId &&
+                            i.ParticipantId == participantId &&
+                            i.Participant.EventId == eventId &&
+                            i.RevokedAtUtc == null &&
+                            i.ExpiresAtUtc > DateTime.UtcNow);
+
+                    if (!invitationIsValid)
+                    {
+                        context.RejectPrincipal();
+                        await context.HttpContext.SignOutAsync(
+                            ParticipantCookieDefaults.AuthenticationScheme);
+                    }
+                };
+
+            });
+
         builder.Services.AddControllersWithViews();
 
         var app = builder.Build();
@@ -46,6 +116,7 @@ public class Program
         app.UseHttpsRedirection();
         app.UseRouting();
 
+        app.UseAuthorization();
         app.UseAuthorization();
 
         app.MapStaticAssets();

@@ -2,6 +2,12 @@
 
 @{
     ViewData["Title"] = "Event Details";
+
+    var canDraw = Model.Participants.Count >= Model.MinParticipants;
+
+    var activeInvitations =
+        ViewBag.ActiveInvitations as Dictionary<int, int>
+        ?? new Dictionary<int, int>();
 }
 
 <h1>@Model.Name</h1>
@@ -10,9 +16,10 @@
 {
     <div class="alert alert-success">@TempData["Success"]</div>
 }
+
 @if (TempData["Error"] != null)
 {
-    <div class="alert alert-error">@TempData["Error"]</div>
+    <div class="alert alert-danger">@TempData["Error"]</div>
 }
 
 <dl class="row">
@@ -30,19 +37,19 @@
 
     <dt class="col-sm-2">Organizer</dt>
     <dd class="col-sm-10">@Model.OrganizerName</dd>
-    
+
     <dt class="col-sm-2">Email</dt>
     <dd class="col-sm-10">@Model.OrganizerEmail</dd>
 </dl>
 
-<h3>Participants (@Model.Participants.Count / minimum @Model.MinParticipants)</h3>
-
-@{
-    var canDraw = Model.Participants.Count >= Model.MinParticipants;
-}
+<h3>
+    Participants (@Model.Participants.Count / minimum @Model.MinParticipants)
+</h3>
 
 <form asp-action="Draw" asp-route-id="@Model.Id" method="post" class="d-inline">
-    <button type="submit" class="btn btn-warning" disabled="@(!canDraw)">Draw names</button>
+    <button type="submit" class="btn btn-warning" disabled="@(!canDraw)">
+        Draw names
+    </button>
 </form>
 
 @if (!canDraw)
@@ -52,43 +59,66 @@
     </span>
 }
 
-<a asp-controller="Participants" asp-action="Create" asp-route-eventId="@Model.Id" class="btn btn-success mb-3">Add
-    participant</a>
+<a asp-controller="Participants" asp-action="Create" asp-route-eventId="@Model.Id" class="btn btn-success mb-3">
+    Add participant
+</a>
 
-    <table class="table">
-        <thead>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model.Participants)
+        {
             <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th></th>
+                <td>@p.Name</td>
+                <td>@p.Email</td>
+                <td>
+                    @if (Model.Assignments.Any())
+                    {
+                        <a asp-controller="Participants" asp-action="Reveal" asp-route-id="@p.Id">Reveal</a>
+                        <span> | </span>
+                    }
+
+                    <a asp-controller="Participants" asp-action="Edit" asp-route-id="@p.Id">Edit</a>
+                    <span> | </span>
+
+                    <a asp-controller="Participants" asp-action="Delete" asp-route-id="@p.Id">Delete</a>
+
+                    <form asp-controller="ParticipantInvitations" asp-action="Generate" method="post" class="d-inline">
+                        <input type="hidden" name="participantId" value="@p.Id" />
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            Generate Invitation
+                        </button>
+                    </form>
+
+                    @if (activeInvitations.TryGetValue(p.Id, out var invitationId))
+                    {
+                        <form asp-controller="ParticipantInvitations" asp-action="Revoke" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@invitationId" />
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                Revoke Invitation
+                            </button>
+                        </form>
+                    }
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var p in Model.Participants)
-            {
-                <tr>
-                    <td>@p.Name</td>
-                    <td>@p.Email</td>
-                    <td>
-                        @if (Model.Assignments.Any())
-                        {
-                            <a asp-controller="Participants" asp-action="Reveal" asp-route-id="@p.Id">Reveal</a>
-                        }
-                        <a asp-controller="Participants" asp-action="Edit" asp-route-id="@p.Id">Edit</a> |
-                        <a asp-controller="Participants" asp-action="Delete" asp-route-id="@p.Id">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
 
 @if (Model.Assignments.Any())
 {
     <div class="alert alert-info">
-        Draw complete (round @Model.Assignments.Max(a => a.Round))
+        Draw complete (round @Model.Assignments.Max(a => a.Round)).
         Each participant can open their reveal page.
     </div>
 }
 
 <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+
 <a asp-action="Index" class="btn btn-secondary">Back to list</a>

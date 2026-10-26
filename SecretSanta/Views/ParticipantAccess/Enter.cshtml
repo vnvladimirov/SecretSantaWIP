@@ -1,0 +1,16 @@
+@model string
+
+@{
+    ViewData["Title"] = "Join Secret Santa";
+}
+
+<h1>Join Secret Santa</h1>
+
+<p>Hello, @ViewBag.ParticipantName!</p>
+<p>You've been invited to participate in <strong>@ViewBag.EventName</strong>.</p>
+
+<form asp-controller="ParticipantAccess" asp-action="EnterPost" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="token" value="@Model" />
+    <button type="submit">Continue</button>
+</form>

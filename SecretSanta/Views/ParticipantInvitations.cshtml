@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Invitation Created";
+}
+
+<h1>Invitation Created</h1>
+
+<p>
+    Invitation for <strong>@ViewBag.ParticipantName</strong>
+    to join <strong>@ViewBag.EventName</strong>.
+</p>
+
+<p>Copy this link and send it to the participant:</p>
+
+<div>
+    <input id="invitationLink" type="text" value="@ViewBag.InvitationUrl" readonly style="width: 100%;" />
+
+    <button type="button" onclick="navigator.clipboard.writeText(
+        document.getElementById('invitationLink').value)">
+        Copy invitation link
+    </button>
+</div>
+
+<p>
+    Expires:
+    @(((DateTime)ViewBag.ExpiresAt).ToString("dd MMM yyyy HH:mm")) UTC
+</p>
+
+<p>
+    <strong>Important:</strong>
+    Save or send this link now. The original token is not stored
+    in the database, so it cannot be retrieved later.
+</p>
+
+<a asp-controller="Events" asp-action="Details" asp-route-id="@ViewBag.EventId">
+    Back to event
+</a>

@@ -7,6 +7,7 @@ using SecretSanta.Data;
 using SecretSanta.Models;
 using SecretSanta.Services;
 using SQLitePCL;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SecretSanta.Controllers;
 
@@ -68,7 +69,19 @@ public class EventsController(ApplicationDbContext context, IDrawService drawSer
             return NotFound();
 
         }
+        var activeInvitations = await _context.ParticipantInvitations
+        .Where(i => i.Participant.EventId == item.Id && i.RevokedAtUtc == null && i.ExpiresAtUtc > DateTime.UtcNow)
+        .Select(i => new
+        
+        {
+            i.ParticipantId,
+            i.Id
+        })
+        .ToListAsync();
 
+        ViewBag.ActiveInvitations = activeInvitations
+        .ToDictionary(i => i.ParticipantId, i => i.Id);
+        
         return View(item);
     }
     [HttpGet]

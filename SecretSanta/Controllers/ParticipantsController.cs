@@ -1,20 +1,35 @@
-using Microsoft.AspNetCore.Authorization.Infrastructure;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SecretSanta.Data;
 using SecretSanta.Models;
 using SecretSanta.Models.ViewModels;
-using SQLitePCL;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace SecretSanta.Controllers;
 
+[Authorize]
 public class ParticipantsController : Controller
 {
     private readonly ApplicationDbContext _context;
+    private string? CurrentUserId =>
+    User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+    private Task<bool> OwnsEventAsync(int eventId)
+    {
+        return _context.Events.AnyAsync(e =>
+            e.Id == eventId &&
+            e.CreatorId == CurrentUserId);
+    }
+
+    private Task<bool> OwnsParticipantAsync(int participantId)
+    {
+        return _context.Participants.AnyAsync(p =>
+            p.Id == participantId &&
+            p.Event.CreatorId == CurrentUserId);
+    }
 
     private async Task LoadPartnerAsync(Participant participant)
     {
@@ -34,11 +49,7 @@ public class ParticipantsController : Controller
     [HttpGet]
     public async Task<IActionResult> Create(int eventId)
     {
-        var exists = await _context
-        .Events
-        .AnyAsync(e => e.Id == eventId);
-
-        if (!exists)
+        if (!await OwnsEventAsync(eventId))
         {
             return NotFound();
         }
@@ -50,10 +61,20 @@ public class ParticipantsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Name,Email,EventId")] Participant model)
     {
+        if (!await OwnsEventAsync(model.EventId))
+        {
+            return NotFound();
+        }
+
         ModelState.Remove(nameof(Participant.Event));
 
         var duplicate = await _context.Participants
         .AnyAsync(p => p.EventId == model.EventId && p.Email == model.Email);
+
+        if (!await OwnsEventAsync(model.EventId))
+        {
+            return NotFound();
+        }
 
         if (duplicate)
         {
@@ -70,6 +91,7 @@ public class ParticipantsController : Controller
 
         return RedirectToAction("Details", "Events", new { id = model.EventId });
     }
+
     [HttpGet]
     public async Task<IActionResult> Edit(int? id)
     {
@@ -77,21 +99,37 @@ public class ParticipantsController : Controller
         {
             return NotFound();
         }
-
         var participant = await _context.Participants.FindAsync(id);
+
         if (participant == null)
         {
             return NotFound();
         }
+
+        if (!await OwnsParticipantAsync(participant.Id))
+        {
+            return NotFound();
+        }
+
         await LoadPartnerAsync(participant);
         return View(participant);
+
     }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,EventId,PartnerId")] Participant model)
+    public async Task<IActionResult> Edit(
+        int id,
+        [Bind("Id,Name,Email,EventId,PartnerId")] Participant model)
     {
         var participant = await _context.Participants.FindAsync(id);
+
         if (participant == null)
+        {
+            return NotFound();
+        }
+
+        if (!await OwnsParticipantAsync(participant.Id))
         {
             return NotFound();
         }
@@ -99,35 +137,51 @@ public class ParticipantsController : Controller
         ModelState.Remove(nameof(Participant.Event));
 
         var duplicate = await _context.Participants.AnyAsync(p =>
-            p.EventId == participant.EventId && p.Email == model.Email && p.Id != id);
+            p.EventId == participant.EventId &&
+            p.Email == model.Email &&
+            p.Id != id);
+
         if (duplicate)
         {
-            ModelState.AddModelError(nameof(model.Email), "This email is already registered for this event!");
+            ModelState.AddModelError(
+                nameof(model.Email),
+                "This email is already registered for this event!");
         }
 
         Participant? newPartner = null;
+
         if (model.PartnerId != null)
         {
-            newPartner = await _context.Participants.FindAsync(model.PartnerId);
+            newPartner = await _context.Participants
+                .FindAsync(model.PartnerId);
+
             if (newPartner == null
                 || newPartner.EventId != participant.EventId
                 || newPartner.Id == id
-                || (newPartner.PartnerId != null && newPartner.PartnerId != id))
+                || (newPartner.PartnerId != null
+                    && newPartner.PartnerId != id))
             {
-                ModelState.AddModelError(nameof(model.PartnerId), "Please choose a valid partner.");
+                ModelState.AddModelError(
+                    nameof(model.PartnerId),
+                    "Please choose a valid partner.");
             }
         }
 
         if (!ModelState.IsValid)
         {
             model.EventId = participant.EventId;
+
             await LoadPartnerAsync(model);
+
             return View(model);
         }
 
-        if (participant.PartnerId != null && participant.PartnerId != model.PartnerId)
+        if (participant.PartnerId != null
+            && participant.PartnerId != model.PartnerId)
         {
-            var oldPartner = await _context.Participants.FindAsync(participant.PartnerId);
+            var oldPartner = await _context.Participants
+                .FindAsync(participant.PartnerId);
+
             if (oldPartner != null)
             {
                 oldPartner.PartnerId = null;
@@ -137,6 +191,7 @@ public class ParticipantsController : Controller
         participant.Name = model.Name;
         participant.Email = model.Email;
         participant.PartnerId = model.PartnerId;
+
         if (newPartner != null)
         {
             newPartner.PartnerId = participant.Id;
@@ -144,9 +199,9 @@ public class ParticipantsController : Controller
 
         await _context.SaveChangesAsync();
 
-        return RedirectToAction("Details", "Events", new { id = participant.EventId });
+        return RedirectToAction(
+            "Details", "Events", new { id = participant.EventId });
     }
-
 
     [HttpGet]
     public async Task<IActionResult> Delete(int? id)
@@ -159,6 +214,11 @@ public class ParticipantsController : Controller
         var participant = await _context.Participants.FirstOrDefaultAsync(p => p.Id == id);
 
         if (participant == null)
+        {
+            return NotFound();
+        }
+
+        if (!await OwnsEventAsync(participant.Id))
         {
             return NotFound();
         }
@@ -176,6 +236,11 @@ public class ParticipantsController : Controller
             return RedirectToAction("Index", "Events");
         }
 
+        if (!await OwnsEventAsync(participant.Id))
+        {
+            return NotFound();
+        }
+
         var eventId = participant.EventId;
 
         var partners = await _context.Participants
@@ -184,7 +249,7 @@ public class ParticipantsController : Controller
 
         foreach (var partner in partners)
         {
-            participant.PartnerId = null;
+            partner.PartnerId = null;
         }
 
         var assignments = await _context.Assignments
@@ -200,34 +265,42 @@ public class ParticipantsController : Controller
     [HttpGet]
     public async Task<IActionResult> Reveal(int? id)
     {
+
         if (id == null)
         {
             return NotFound();
         }
 
         var participant = await _context.Participants
-        .Include(p => p.Event)
-        .FirstOrDefaultAsync(p => p.Id == id);
+            .Include(p => p.Event)
+            .FirstOrDefaultAsync(p => p.Id == id);
 
         if (participant == null)
         {
             return NotFound();
         }
 
-        var latestRound = await _context.Assignments
-        .Where(a => a.EventId == participant.EventId)
-        .MaxAsync(a => (int?)a.Round);
+        if (!await OwnsParticipantAsync(participant.Id))
+        {
+            return NotFound();
+        }
 
-        string? recieverName = null;
+        var latestRound = await _context.Assignments
+            .Where(a => a.EventId == participant.EventId)
+            .MaxAsync(a => (int?)a.Round);
+
+        string? receiverName = null;
+
         if (latestRound != null)
         {
             var assignment = await _context.Assignments
-            .Include(a => a.Receiver)
-            .FirstOrDefaultAsync(a => a.EventId == participant.EventId
-            && a.Round == latestRound
-            && a.GiverId == participant.Id);
+                .Include(a => a.Receiver)
+                .FirstOrDefaultAsync(a =>
+                    a.EventId == participant.EventId &&
+                    a.Round == latestRound &&
+                    a.GiverId == participant.Id);
 
-            recieverName = assignment?.Receiver.Name;
+            receiverName = assignment?.Receiver.Name;
         }
 
         return View(new RevealViewModel
@@ -235,7 +308,7 @@ public class ParticipantsController : Controller
             EventId = participant.EventId,
             EventName = participant.Event.Name,
             ParticipantName = participant.Name,
-            ReceiverName = recieverName
+            ReceiverName = receiverName
         });
     }
 }

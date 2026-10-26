@@ -1,0 +1,52 @@
+@{
+    ViewData["Title"] = "Invitation Created";
+}
+
+<h1>Invitation Created</h1>
+
+<p>
+    Invitation for <strong>@ViewBag.ParticipantName</strong>
+    to join <strong>@ViewBag.EventName</strong> has been created.
+</p>
+
+<div class="mb-3">
+    <label for="invitationUrl" class="form-label">
+        Invitation link
+    </label>
+
+    <div class="input-group">
+        <input id="invitationUrl" class="form-control" type="text" value="@ViewBag.InvitationUrl" readonly />
+
+        <button type="button" class="btn btn-primary" onclick="copyInvitation()">
+            Copy link
+        </button>
+    </div>
+</div>
+
+<p>
+    <strong>Expires:</strong> @ViewBag.ExpiresAt
+</p>
+
+<div class="alert alert-warning">
+    Save or send this link now. The original token is not stored in the database,
+    so you cannot retrieve the same link later.
+</div>
+
+<a asp-controller="Events" asp-action="Details" asp-route-id="@ViewBag.EventId" class="btn btn-secondary">
+    Back to event
+</a>
+
+<script>
+    async function copyInvitation() {
+        const input = document.getElementById("invitationUrl");
+
+        try {
+            await navigator.clipboard.writeText(input.value);
+            alert("Invitation link copied!");
+        } catch {
+            input.select();
+            document.execCommand("copy");
+            alert("Copy attempted. Please verify the link was copied.");
+        }
+    }
+</script>

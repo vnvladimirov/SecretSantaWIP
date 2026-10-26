@@ -1,0 +1,12 @@
+@{
+    ViewData["Title"] = "Welcome";
+}
+
+<h1>Welcome, @User.Identity?.Name!</h1>
+
+<p>Your participant session is active.</p>
+
+<form asp-controller="ParticipantAccess" asp-action="Logout" method="post">
+    @Html.AntiForgeryToken()
+    <button type="submit">Log out</button>
+</form>
