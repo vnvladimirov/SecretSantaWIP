@@ -1,42 +1,664 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem rgb(216, 106, 91), 0 0 0 0.25rem #258cfb;
+:root {
+    --santa-red: #e94b5b;
+    --santa-red-dark: #c93649;
+    --santa-green: #218c68;
+    --santa-green-dark: #176b50;
+    --santa-cream: #fff9f0;
+    --santa-yellow: #ffd166;
+    --santa-text: #343746;
+    --santa-muted: #777b89;
+    --santa-border: #f0e4d8;
 }
 
 html {
   position: relative;
   min-height: 100%;
+  font-size: 16px;
 }
-body{
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+body {
+  min-height: 100vh;
+  background-color: var(--santa-cream);
+  color: var(--santa-text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
 }
 
 button, input, textarea {
   font-family: inherit;
 }
 
-h1, h2, h3{
-  line-height: 1.6;
+h1, h2, h3, h4, h5, h6{
+  color: var(--santa-text);
+  font-weight: 750;
+  letter-spacing: -0.025em;
+}
+a {
+  color: var(--santa-green);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--santa-green-dark);
+}
+
+.btn {
+  border-radius: 12px;
+  padding: 0.6rem 1.1rem;
+  font-weight: 650;
+  transition: background-color 0.2s ease,
+              border-color 0.2s ease,
+              transform 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  transition: translateY(-1px);
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--santa-yellow);
+  outline-offset: 3px;
+}
+
+.btn-success {
+  --bs-btn-bg: var(--santa-green);
+  --bs-btn-border-color: var(--santa-green);
+  --bs-btn-hover-bg: var(--santa-green-dark);
+  --bs-btn-hover-border-color: var(--santa-green-dark);
+  --bs-btn-active-bg: var(--santa-green-dark);
+  --bs-btn-border-active-color: var(--santa-green-dark);
+}
+
+.btn-danger {
+    --bs-btn-bg: var(--santa-red);
+    --bs-btn-border-color: var(--santa-red);
+    --bs-btn-hover-bg: var(--santa-red-dark);
+    --bs-btn-hover-border-color: var(--santa-red-dark);
+}
+
+.card {
+    border: 1px solid var(--santa-border);
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.card.shadow,
+.card.shadow-sm {
+    box-shadow: 0 8px 24px rgba(65, 47, 40, 0.07) !important;
+}
+
+.card-header {
+    background-color: #fffdf9;
+    border-bottom: 1px solid var(--santa-border);
+    font-weight: 700;
+}
+
+.card-footer {
+    background-color: #fffdf9;
+    border-top: 1px solid var(--santa-border);
+}
+
+
+.form-control,
+.form-select {
+    border: 1px solid #e5d9cf;
+    border-radius: 10px;
+    padding: 0.7rem 0.85rem;
+    color: var(--santa-text);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--santa-green);
+    box-shadow: 0 0 0 0.2rem rgba(33, 140, 104, 0.15);
+}
+
+.alert {
+    border: 0;
+    border-radius: 14px;
+}
+
+.table {
+    --bs-table-color: var(--santa-text);
+    --bs-table-bg: transparent;
+    --bs-table-border-color: var(--santa-border);
+}
+
+.table thead th {
+    font-weight: 750;
+}
+
+::selection {
+    color: var(--santa-text);
+    background-color: var(--santa-yellow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}
+
+.santa.navbar {
+  background: linear-gradient(115deg, #176b50, #218c68);
+  border-bottom: 4px solid var(--santa-yellow);
+  padding: 0.8rem 0;
+  box-shadow: 0 5px 18px rgba(23, 107, 80, 0.16);
+}
+
+.santa-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: #ffffff;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.04rem;
+}
+
+.santa-brand:hover,
+.santa-brand:focus {
+  color: #ffffff;
+}
+
+.santa-brand-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  font-size: 1.45rem;
+}
+
+.santa-brand-highlight {
+  color: var(--santa-yellow);
+}
+
+.santa.navbar .navbar-nav {
+  gap: 0.035rem;
+}
+
+.santa-navbar .nav-link {
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
+  padding: 0.6rem 0.9rem;
+  border-radius: 10px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.santa-navbar .nabar-toggler {
+  border-color: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+}
+
+.santa.navbar .nabar-toggler:focus {
+  box-shadow: 0 0 0 0.2rem rgba(255, 209, 102, 0.35);
+}
+
+.santa-account .navbar-nav {
+align-items: center;
+}
+
+.santa-account .nav-link {
+  color: #ffffff;
+}
+
+@media (max-width: 991.98px) {
+  .santa-navbar .navbar-collapse {
+    padding-top: 0.75rem;
+  }
+
+  .santa-account {
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+}
+
+html,
+body {
+    background-color: #fff9f0 !important;
 }
 
 body {
-  margin-bottom: 60px;
+    color: #343746;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+header .santa-navbar,
+.navbar.santa-navbar {
+    background-color: #218c68 !important;
+    background-image: linear-gradient(115deg, #176b50, #218c68) !important;
+    border-bottom: 4px solid #ffd166 !important;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.santa-navbar .navbar-brand,
+.santa-navbar .nav-link {
+    color: #ffffff !important;
+}
+
+.santa-navbar .santa-brand-highlight {
+    color: #ffd166 !important;
+}
+
+.santa-navbar .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.santa-navbar .navbar-toggler-icon {
+    filter: brightness(0) invert(1);
+}
+
+footer.footer {
+  position: static;
+  flex-shrink: 0;
+  width: 100%;
+  margin-top: 2rem;
+  padding: 1.5rem 0;
+  background-color: #fffdf9;
+  border-top: 1px solid #f0e4d8;
+  color: #777b89;
+}
+
+footer.footer .container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.santa-footer-separator {
+    color: #c7b8ab;
+}
+
+footer.footer a {
+  color: #218c68;
+  font-weight: 600;
+}
+
+footer.footer a:hover {
+  color: #176b50;
+}
+
+.santa-account-links {
+    gap: 0.5rem;
+}
+
+.santa-account-greeting {
+   display: inline-flex;
+   align-items: center;
+   gap: 0.6rem;
+}
+
+.santa-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #ffd166;
+  color: #343746;
+  font-size: 1.15rem;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+}
+
+.santa-register-link {
+    color: #ffffff;
+    font-weight: 650;
+}
+
+.santa-account-links .santa-register-link:hover {
+    color: #ffd166;
+}
+
+.santa-login-btn {
+    background-color: #ffd166;
+    border: 2px solid #ffd166;
+    color: #343746;
+    font-weight: 750;
+    border-radius: 12px;
+    padding: 0.55rem 1.1rem;
+}
+
+.santa-login-btn:hover {
+    background-color: #ffe09a;
+    border-color: #ffe09a;
+    color: #343746;
+}
+
+.santa-logout-btn {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
+    font-weight: 650;
+}
+
+.santa-logout-btn:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.22);
+}
+
+@media (max-width: 991.98px) {
+    .santa-account-links {
+        align-items: flex-start !important;
+        padding-top: 0.5rem;
+    }
+}
+
+.santa-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2rem, 5vw, 4rem);
+  border: 1px solid #f0e4d8;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #fffdf9 0%, #fff0e7 100%);
+}
+
+.santa-eyebrow,
+.santa-section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #218c68;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.santa-hero-title {
+  font-size: clamp(2.25rem, 4.5vw, 3.8rem);
+  line-height: 1.12;
+  font-weight: 850;
+  letter-spacing: -0.055em;
+}
+
+.santa-hero-title span {
+  color: #e94b5b;
+}
+
+.santa-hero-description {
+  max-width: 560px;
+  color: #777b89;
+  font-size: 1.08rem;
+  line-height: 1.8;
+}
+
+.santa-hero-button {
+  box-shadow: 0 6px 15 px rgba(33, 140, 104, 0.18);
+}
+
+.santa-hero-note {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #777b89;
+  font-size: 0.9rem;
+}
+
+.santa-hero-note i {
+  color: #e94b5b;
+}
+
+.santa-hero-art {
+  position: relative;
+  display: flex;
+  min-height: 340px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #e3f2e8;
+}
+
+.santa-art-sparkle {
+  position: absolute;
+  color: #218c68;
+  font-weight: 2rem;
+}
+
+.sparkle-one {
+  top: 12%;
+  left: 17%;
+}
+
+.sparkle-two {
+  top: 23%;
+  right: 15%;
+  color: #e94b5b;
+}
+.sparkle-three {
+  bottom: 24%;
+  left: 13%;
+  color: #e9ae35;
+}
+
+.santa-main-gift {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 190px;
+  height: 190px;
+}
+.santa-gift-box {
+    display: flex;
+    width: 155px;
+    height: 135px;
+    align-items: center;
+    justify-content: center;
+    border: 6px solid #c93649;
+    border-radius: 12px;
+    background: #e94b5b;
+    box-shadow: 0 16px 30px rgba(70, 70, 60, 0.16);
+    transform: rotate(-5deg);
+}
+
+.santa-gift-box span {
+    font-size: 4.8rem;
+}
+
+.santa-gift-ribbon {
+    position: absolute;
+    z-index: 1;
+    top: 20px;
+    bottom: 15px;
+    left: 50%;
+    width: 24px;
+    border-right: 4px solid #ffd166;
+    border-left: 4px solid #ffd166;
+    background: #ffd166;
+    transform: translateX(-50%) rotate(-5deg);
+}
+
+.santa-gift-bow {
+    position: absolute;
+    z-index: 2;
+    top: 7px;
+    left: 50%;
+    width: 68px;
+    height: 30px;
+    border: 8px solid #ffd166;
+    border-radius: 50%;
+    transform: translateX(-50%) rotate(-5deg);
+}
+
+.santa-gift {
+    position: absolute;
+    display: flex;
+    width: 54px;
+    height: 54px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    font-size: 1.8rem;
+    box-shadow: 0 8px 20px rgba(70, 70, 60, 0.1);
+}
+
+.santa-gift-one {
+    top: 19%;
+    right: 13%;
+    color: #ffffff;
+    background: #218c68;
+    transform: rotate(12deg);
+}
+
+.santa-gift-two {
+    bottom: 20%;
+    left: 12%;
+    color: #ffffff;
+    background: #e94b5b;
+    transform: rotate(-12deg);
+}
+
+.santa-art-caption {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    padding: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.82);
+    color: #343746;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.santa-feature-card {
+    background: #ffffff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.santa-feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(65, 47, 40, 0.1) !important;
+}
+
+.santa-feature-icon {
+    display: flex;
+    width: 56px;
+    height: 56px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    font-size: 1.55rem;
+}
+
+.santa-icon-red {
+    color: #c93649;
+    background: #ffeaeb;
+}
+
+.santa-icon-green {
+    color: #176b50;
+    background: #e3f2e8;
+}
+
+.santa-icon-yellow {
+    color: #946200;
+    background: #fff3cf;
+}
+
+.santa-step-number {
+    display: inline-block;
+    margin-top: 1.25rem;
+    color: #a0a1a9;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+}
+
+.santa-feature-card h3 {
+    letter-spacing: -0.02em;
+}
+
+.santa-benefits {
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border: 1px solid #f0e4d8;
+    border-radius: 24px;
+    background: #fffdf9;
+}
+
+.santa-benefit {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.1rem 0;
+}
+
+.santa-benefit + .santa-benefit {
+    border-top: 1px solid #f0e4d8;
+}
+
+.santa-benefit-icon {
+    display: flex;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: #e3f2e8;
+    color: #218c68;
+    font-size: 1.3rem;
+}
+
+.santa-bottom-cta {
+    padding: clamp(2rem, 5vw, 3.5rem) 1.5rem;
+    border-radius: 24px;
+    background: #fce6e5;
+}
+
+.santa-cta-decoration {
+    margin-bottom: 1rem;
+    color: #e94b5b;
+    font-size: 1.6rem;
+    letter-spacing: 0.5rem;
+}
+
+.santa-bottom-cta p {
+    color: #777b89;
+}
+
+@media (max-width: 767.98px) {
+    .santa-hero {
+        padding: 1.5rem;
+        border-radius: 22px;
+    }
+
+    .santa-hero-art {
+        min-height: 280px;
+    }
+
+    .santa-hero-title {
+        font-size: clamp(2.2rem, 10vw, 3.2rem);
+    }
+
+    .santa-main-gift {
+        transform: scale(0.85);
+    }
+
+    .santa-feature-card:hover {
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .santa-feature-card {
+        transition: none;
+    }
+
+    .santa-feature-card:hover {
+        transform: none;
+    }
 }

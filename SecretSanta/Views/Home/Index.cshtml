@@ -1,9 +1,212 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity;
+@{
     ViewData["Title"] = "Welcome";
+    var isAuthenticated = User.Identity?.IsAuthenticated == true;
 }
 
-<div class="text-left">
-    <h1 class="display-4">Welcome</h1>
-    <p>Welcome to your SecretSanta party organisation tool!</a></p>
-    <p>You can log in or you can start bullshitin</p>
-</div>
+<section class="santa-hero mb-5">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+            <span class="santa-eyebrow">
+                <i class="bi bi-stars"></i>
+                Open the cookiejar!
+            </span>
+
+            <h1 class="santa-hero-title mt-3">
+                A little mystery.<br />
+                <span>A lot of Christmas magic.</span>
+            </h1>
+
+            <p class="santa-hero-description mt-3">
+                Bring your favourite people together for a surpise gift
+                exchange event that they will remember! Organize your event, 
+                draw names privately from the cookiejar and make everyone's 
+                wishlist count.
+            </p>
+
+            <div class="d-flex flex-wrap gap-3 mt-4">
+                @if (isAuthenticated)
+                {
+                    <a asp-controller="Events" asp-action="Index" class="btn btn-success btn-lg santa-hero-button">
+                        <i class="bi bi-calendar-heart me-2"></i>
+                            Explore my events
+                    </a>
+                }
+                else
+                {
+                    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-success btn-lg santa-hero-button">
+                        <i class="bi bi-gift me-2"></i>
+                            Get started
+                     </a>
+
+                     <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-outline-success btn-lg">
+                     Log in
+                     </a>
+                }
+            </div>
+
+
+            <div class="santa-hero-note mt-4">
+                <i class="bi bi-hear-fill"></i>
+                Made for fun, sometimes laughter and thoughtful gifts!
+            </div>
+        </div>
+        
+        <div class="col-lg-5">
+            <div class="santa-hero-art">
+                <div class="santa-art-sparkle sparkle-one">✦</div>
+                <div class="santa-art-sparkle sparkle-two">✧</div>
+                <div class="santa-art-sparkle sparkle-three">✦</div>
+                
+                <div class="santa-gift santa-gift-one">
+                    <i class="bi bi-gift-fill"></i>
+                </div>
+
+                <div class="santa-gift santa-gift-two">
+                    <i class="bi bi-gift-fill"></i>
+                </div>
+
+                <div class="santa-main-gift">
+                    <div class="santa-gift-bow"></div>
+                    <div class="santa-gift-ribbon"></div>
+                    <div class="santa-gift-box"></div>
+                    <span>&#127873</span>
+                </div>
+
+                <div class="santa-art-caption">
+                    <i class="bi bi-stars me-2"></i>
+                        The best gifts come with a story
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="santa-section mb-5">
+    <div class="text-center mb-4">
+        <span class="santa-section-label">Simple as 1, 2, 3</span>
+        <h2 class="mt-2">Your Secret Santa starts here</h2>
+        <p class="text-muted">
+            Three easy steps to set up the perfect gift exchange.
+        </p>    
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card santa-feature-card h-100">
+                <div class="card-body p-4">
+                    <div class="santa-feature-icon santa-icon-red">
+                        <i class="bi bi-calendar-heart"></i>
+                    </div>
+                    <span class="santa-step-number">STEP 1</span>
+                    <h3 class="h5 mt-3">Create your event</h3>
+                    <p class="text-muted mb-0">
+                        Give your gift exchange a name, set a budget, and choose the date for your celebration.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card santa-feature-card h-100">
+                <div class="card-body p-4">
+                    <div class="santa-feature-icon santa-icon-green">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <span class="santa-step-number">STEP 2</span>
+                    <h3 class="h5 mt-3">Invite your people</h3>
+                    <p class="text-muted mb-0">
+                        Add participants and share their private invitation links so everyone can join the fun.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card santa-feature-card h-100">
+                <div class="card-body p-4">
+                    <div class="santa-feature-icon santa-icon-yellow">
+                        <i class="bi bi-gift"></i>
+                    </div>
+                    <span class="santa-step-number">STEP 3</span>
+                    <h3 class="h5 mt-3">Reveal the magic</h3>
+                    <p class="text-muted mb-0">
+                        Draw names, discover your assigned recipient, and use their wishlist to find a thoughtful gift.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="santa-benefits mb-5">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-5">
+            <span class="santa-section-label">The little things matter</span>
+            <h2 class="mt-2">Everything you need for a happier gift exchange.</h2>
+            <p class="text-muted">Spend less time organizing and more enjoying the excitment of giving.</p>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="santa-benefit">
+                <div class="santa-benefit-icon">
+                    <i class="bi bi-shield-lock"></i>
+                </div>
+                <div>
+                    <h3 class="h6 mb-1">Private assignments</h3>
+                    <p class="text-muted mb-0">
+                        Participants see their own assigned recipient.
+                    </p>
+                </div>
+            </div>
+
+            <div class="santa-benefit">
+                <div class="santa-benefit-icon">
+                    <i class="bi bi-card-checklist"></i>
+                </div>
+                <div>
+                    <h3 class="h6 mb-1">Personal wishlists</h3>
+                    <p class="text-muted mb-0">
+                        Collect gift ideas and help your Secret Santa
+                        choose something meaningful.
+                    </p>
+                </div>
+            </div>
+
+            <div class="santa-benefit">
+                <div class="santa-benefit-icon">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+                <div>
+                    <h3 class="h6 mb-1">Easy event management</h3>
+                    <p class="text-muted mb-0">
+                        Keep your participants and event details organized
+                        in one place.
+                    </p>
+                </div>
+            </div>
+    </div>
+</section>
+
+    <section class="santa-bottom-cta text-center mb-4">
+        <div class="santa-cta-decoration" aria-hidden="true">✦ &#127873 ✦</div>
+        <h2>Ready to make someone's day?</h2>
+        <p class="mb-4">
+            Every great Secret Santa begins with one little idea.
+        </p>
+
+        @if (isAuthenticated)
+        {
+            <a asp-controller="Events" asp-action="Index" class="btn btn-success btn-lg santa-hero-button">
+                <i class="bi bi-arrow-right-circle me-2"></i>
+                Go to my events
+            </a>
+        }
+        else
+        {
+            <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-success btn-lg santa-hero-button">
+                <i class="bi bi-gift me-2"></i>
+                Start your Secret Santa
+            </a>
+        }
+    </section>

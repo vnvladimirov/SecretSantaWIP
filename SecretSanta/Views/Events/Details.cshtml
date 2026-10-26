@@ -1,3 +1,4 @@
+@using NetTopologySuite.Index.HPRtree
 @model SecretSanta.Models.Event
 
 @{
@@ -80,20 +81,26 @@
                 <td>
                     @if (Model.Assignments.Any())
                     {
-                        <a asp-controller="Participants" asp-action="Reveal" asp-route-id="@p.Id">Reveal</a>
-                        <span> | </span>
+                        <a asp-controller="Participants" asp-action="Reveal" asp-route-id="@p.Id" class="btn btn-sm btn-outline-success" aria-label="Reveal" title="Reveal">
+                            <i class="bi bi-eye"></i>
+                            </a>
+                        <span></span>
                     }
 
-                    <a asp-controller="Participants" asp-action="Edit" asp-route-id="@p.Id">Edit</a>
-                    <span> | </span>
+                    <a asp-controller="Participants" asp-action="Edit" asp-route-id="@p.Id" class="btn btn-sm btn-outline-success" aria-label="Edit" title="Edit">
+                        <i class="bi bi-pencil-square" aria-hidden="true"></i> 
+                        Edit
+                    </a>
+                    <span></span>
 
-                    <a asp-controller="Participants" asp-action="Delete" asp-route-id="@p.Id">Delete</a>
+                    <a asp-controller="Participants" asp-action="Delete" asp-route-id="@p.Id" class="btn btn-sm btn-outline-danger" aria-label="Delete" title="Delete">
+                        <i class="bi bi-trash" aria-hidden="true"></i>
+                        Delete
+                    </a>
 
                     <a asp-controller="Wishlist" asp-action="Details" asp-route-participantId="@p.Id" class="btn btn-outline-primary btn-sm">
                         <i class="bi bi-gift"></i> View Wishlist
                     </a>
-
-
 
 
                     <form asp-controller="ParticipantInvitations" asp-action="Generate" method="post" class="d-inline">
