@@ -1,12 +1,39 @@
+@using SecretSanta.Models
+
 @{
     ViewData["Title"] = "Welcome";
+    var participant = ViewBag.Participant as Participant;
+    var eventName = ViewBag.EventName as string ?? "Secret Santa";
 }
 
-<h1>Welcome, @User.Identity?.Name!</h1>
+@if (ViewBag.ReceiverName != null)
+{
+    <div class="card bg-light border-0 mb-4">
+        <div class="card-body">
+            <div class="fs-1 mb-2">🎁</div>
 
-<p>Your participant session is active.</p>
+            <h2 class="h4">Your Secret Santa recipient</h2>
 
-<form asp-controller="ParticipantAccess" asp-action="Logout" method="post">
-    @Html.AntiForgeryToken()
-    <button type="submit">Log out</button>
-</form>
+            <p class="fs-5 mb-3">
+                You're buying a gift for
+                <strong>@ViewBag.ReceiverName</strong>!
+            </p>
+
+            <a asp-controller="MyWishlist" asp-action="RecipientWishlist" asp-route-participantId="@ViewBag.ReceiverId"
+               class="btn btn-outline-success">
+                View their wishlist
+            </a>
+
+            <a asp-controller="Wishlist" asp-action="Index" asp-route-participantId="@participant.Id" class="btn btn-success btn-lg w-100 mb-3">
+                <i class="bi bi-gift"></i>My Wishlist
+            </a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-info mb-4">
+        Your Secret Santa draw hasn't been completed yet.
+        Check back after the organizer runs the draw.
+    </div>
+}

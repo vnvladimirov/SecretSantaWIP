@@ -120,11 +120,64 @@ public class ParticipantAccessController : Controller
 
     [Authorize(AuthenticationSchemes = ParticipantCookieDefaults.AuthenticationScheme)]
     [HttpGet]
-    public IActionResult Welcome()
+    public async Task<IActionResult> Welcome()
     {
-        SetPrivateResponseHeaders();
-        return View();
-    }
+            SetPrivateResponseHeaders();
+
+            var participantIdValue = User.FindFirstValue(
+                ParticipantCookieDefaults.ParticipantIdClaim);
+
+            var eventIdValue = User.FindFirstValue(
+                ParticipantCookieDefaults.EventIdClaim);
+
+            if (!int.TryParse(participantIdValue, out var participantId) ||
+                !int.TryParse(eventIdValue, out var eventId))
+            {
+                return Forbid();
+            }
+
+            var participant = await _context.Participants
+                .AsNoTracking()
+                .Include(p => p.Event)
+                .FirstOrDefaultAsync(p =>
+                    p.Id == participantId &&
+                    p.EventId == eventId);
+
+            if (participant == null)
+                return NotFound();
+
+            ViewBag.Participant = participant;
+            ViewBag.EventName = participant.Event.Name;
+
+            var latestRound = await _context.Assignments
+                .Where(a => a.EventId == eventId)
+                .Select(a => (int?)a.Round)
+                .MaxAsync();
+
+            if (latestRound.HasValue)
+            {
+                var assignment = await _context.Assignments
+                    .AsNoTracking()
+                    .Where(a =>
+                        a.EventId == eventId &&
+                        a.Round == latestRound.Value &&
+                        a.GiverId == participantId)
+                    .Select(a => new
+                    {
+                        a.ReceiverId,
+                        ReceiverName = a.Receiver.Name
+                    })
+                    .FirstOrDefaultAsync();
+
+                if (assignment != null)
+                {
+                    ViewBag.ReceiverId = assignment.ReceiverId;
+                    ViewBag.ReceiverName = assignment.ReceiverName;
+                }
+            }
+
+            return View();
+        }
 
     [Authorize(AuthenticationSchemes = ParticipantCookieDefaults.AuthenticationScheme)]
     [HttpPost]

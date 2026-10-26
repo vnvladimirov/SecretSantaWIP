@@ -89,6 +89,13 @@
 
                     <a asp-controller="Participants" asp-action="Delete" asp-route-id="@p.Id">Delete</a>
 
+                    <a asp-controller="Wishlist" asp-action="Details" asp-route-participantId="@p.Id" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-gift"></i> View Wishlist
+                    </a>
+
+
+
+
                     <form asp-controller="ParticipantInvitations" asp-action="Generate" method="post" class="d-inline">
                         <input type="hidden" name="participantId" value="@p.Id" />
                         <button type="submit" class="btn btn-primary btn-sm">
