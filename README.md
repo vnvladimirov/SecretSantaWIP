@@ -72,6 +72,51 @@
   <li>Git(optional, for cloning the repository)</li>
 </ul>
 <h3><strong>1. Clone the repository</strong></h3>
+
+```bash
+git clone https://github.com/vnvladimirov/SecretSantaWIP
+cd SecretSantaWIP
+```
+
+<h3><strong>2. Configure the database connection</strong></h3>
+<p>Update the DefaultConnection connection string in appsettings.json to point to your SQL Server instance.</p>
+
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost,1433;Database=SecretSanta;User Id=sa;Password=123Noize123!;TrustServerCertificate=True;"
+  }
+```
+<p>The database and the web application is developed in <strong>DBeaver</strong> and <strong>VS Code</strong> in <strong>Linux Mint 24.04 Cinnamon edition</strong> so the authentication for the SQL Server is <strong>SQL Server Authentication!</strong></p>
+
+<h3>3. Restore dependancies</h3>
+
+```bash
+dotnet restore
+```
+
+<h3>4. Run the application!</h3>
+
 ```bash
 dotnet run
 ```
+
+<h2>Project Structure</h2>
+<p>The project follows the <strong>ASP.NET Core MVC</strong> architecture</p>
+
+<h3>Project Hierarchy</h3>
+<img src="screenshots/project-hierarchy.png" alt="Home page" width="400">
+<h3>Controllers</h3>
+<img src="screenshots/project-controllers.png" alt="controllers" width="400">
+<h3>Data</h3>
+<img src="screenshots/project-data.png" alt="Home page" width="400">
+<h3>Project Models</h3>
+<img src="screenshots/project-models.png" alt="Home page" width="400">
+<h3>Views</h3>
+<img src="screenshots/project-views.png" alt="Home page" width="400">
+
+
+
+
+
+
