@@ -1,0 +1,229 @@
+
+.santa-events-page {
+    padding-bottom: 1rem;
+}
+
+.santa-events-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    margin: 0.5rem 0 2rem;
+}
+
+.santa-events-title {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+}
+
+.santa-events-intro {
+    max-width: 600px;
+    margin-bottom: 0;
+    color: var(--santa-muted);
+    font-size: 1.02rem;
+    line-height: 1.7;
+}
+
+.santa-create-event {
+    flex-shrink: 0;
+    white-space: nowrap;
+    box-shadow: 0 5px 14px rgba(33, 140, 104, 0.17);
+}
+
+.santa-events-count {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-bottom: 1rem;
+    color: var(--santa-muted);
+    font-size: 0.92rem;
+    font-weight: 650;
+}
+
+.santa-events-count i {
+    color: var(--santa-green);
+    font-size: 1.1rem;
+}
+
+.santa-event-card {
+    overflow: hidden;
+    border: 1px solid var(--santa-border);
+    border-radius: 20px;
+    background: #fffdf9;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.santa-event-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(65, 47, 40, 0.10);
+}
+
+.santa-event-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 1.25rem 1.25rem 0;
+}
+
+.santa-event-icon {
+    display: flex;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    background: #ffeaeb;
+    color: var(--santa-red-dark);
+    font-size: 1.4rem;
+}
+
+.santa-event-date {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.45rem 0.65rem;
+    border-radius: 10px;
+    background: #e3f2e8;
+    color: var(--santa-green-dark);
+    font-size: 0.8rem;
+    font-weight: 750;
+    white-space: nowrap;
+}
+
+.santa-event-body {
+    padding: 1.2rem 1.25rem 1.4rem;
+}
+
+.santa-event-title {
+    margin-bottom: 1.3rem;
+    font-size: 1.25rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.santa-event-detail {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    margin-top: 1rem;
+    color: var(--santa-text);
+}
+
+.santa-event-detail > i {
+    width: 1.2rem;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+    color: var(--santa-green);
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.santa-event-detail > span {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.15rem;
+    overflow-wrap: anywhere;
+}
+
+.santa-detail-label {
+    color: var(--santa-muted);
+    font-size: 0.8rem;
+}
+
+.santa-event-detail strong {
+    font-size: 0.94rem;
+    font-weight: 650;
+}
+
+.santa-event-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--santa-border);
+    background: #ffffff;
+}
+
+.santa-event-actions .btn {
+    padding: 0.45rem 0.7rem;
+    border-radius: 10px;
+    font-size: 0.84rem;
+}
+
+.santa-event-delete {
+    display: inline-flex;
+    width: 36px;
+    height: 34px;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    border: 1px solid #f3c7cc;
+    background: #fff0f1;
+    color: var(--santa-red-dark);
+}
+
+.santa-event-delete:hover {
+    border-color: var(--santa-red);
+    background: var(--santa-red);
+    color: #ffffff;
+}
+
+.santa-events-empty {
+    padding: clamp(2rem, 5vw, 4rem) 1.5rem;
+    border: 1px dashed #e5d6c9;
+    border-radius: 24px;
+    background: #fffdf9;
+    text-align: center;
+}
+
+.santa-empty-icon {
+    display: flex;
+    width: 76px;
+    height: 76px;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.25rem;
+    border-radius: 24px;
+    background: #ffeaeb;
+    color: var(--santa-red-dark);
+    font-size: 2rem;
+}
+
+.santa-events-empty h2 {
+    margin-bottom: 0.65rem;
+    font-size: 1.6rem;
+}
+
+.santa-events-empty p {
+    max-width: 480px;
+    margin: 0 auto 1.5rem;
+    color: var(--santa-muted);
+    line-height: 1.7;
+}
+
+@media (max-width: 767.98px) {
+    .santa-events-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    .santa-create-event {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .santa-event-card {
+        transition: none;
+    }
+
+    .santa-event-card:hover {
+        transform: none;
+    }
+}

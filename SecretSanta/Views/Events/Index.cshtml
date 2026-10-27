@@ -2,36 +2,123 @@
 
 @{
     ViewData["Title"] = "Events";
+    var events = Model?.ToList() ?? new List<SecretSanta.Models.Event>();
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/events.css" asp-append-version="true">
 }
 
-<h1>Events</h1>
-<a asp-action="Create" class="btn btn-primary mb-3">Create new event</a>
+<div class="santa-events-page">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Date</th>
-            <th>Budget</th>
-            <th>Organizer</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Name</td>
-                <td>@item.EventDate.ToString("dd MMM yyyy")</td>
-                <td>@item.Budget.ToString("0.00")</td>
-                <td>@item.OrganizerName</td>
-                <th>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </th>
-            </tr>
-        }
-    </tbody>
-</table>
+    <section class="santa-events-heading">
+        <div>
+            <span class="santa-eyebrow">
+                <i class="bi bi-stars" aria-hidden="true"></i>
+                YOUR CHRISTMAS PLANS
+            </span>
+
+            <h1 class="santa-events-title mt-2">Your Secret Santa Events</h1>
+
+            <p class="santa-events-intro">
+                Gather your favorite people, organize your gift exchange,
+                and make some Christmas memories.
+            </p>
+        </div>
+
+        <a asp-action="Create" class="btn btn-success santa-create-event">
+            <i class="bi bi-plus-lg me-2" aria-hidden="true"></i>
+            Create new event
+        </a>
+    </section>
+
+    @if (events.Count == 0)
+    {
+        <section class="santa-events-empty">
+            <div class="santa-empty-icon">
+                <i class="bi bi-gift" aria-hidden="true"></i>
+            </div>
+
+            <h2>No events yet!</h2>
+
+            <p>
+                Your next Secret Santa adventure starts here.
+                Create an event and invite your friends or family.
+            </p>
+
+            <a asp-action="Create" class="btn btn-success">
+                <i class="bi bi-plus-lg me-2" aria-hidden="true"></i>
+                Create your first event
+            </a>
+        </section>
+    }
+    else
+    {
+        <div class="santa-events-count">
+            <i class="bi bi-calendar-heart" aria-hidden="true"></i>
+            <span>
+                @events.Count event@(events.Count == 1 ? "" : "s")
+            </span>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+            @foreach (var item in events)
+            {
+                <div class="col">
+                    <article class="card santa-event-card h-100">
+
+                        <div class="santa-event-card-top">
+                            <div class="santa-event-icon">
+                                <i class="bi bi-gift-fill" aria-hidden="true"></i>
+                            </div>
+
+                            <span class="santa-event-date">
+                                <i class="bi bi-calendar-event me-1" aria-hidden="true"></i>
+                                @item.EventDate.ToString("dd MMM yyyy")
+                            </span>
+                        </div>
+
+                        <div class="card-body santa-event-body">
+                            <h2 class="santa-event-title">
+                                @item.Name
+                            </h2>
+
+                            <div class="santa-event-detail">
+                                <i class="bi bi-cash-coin" aria-hidden="true"></i>
+                                <span>
+                                    <span class="santa-detail-label">Budget</span>
+                                    <strong>@item.Budget.ToString("0.00")</strong>
+                                </span>
+                            </div>
+
+                            <div class="santa-event-detail">
+                                <i class="bi bi-person-fill" aria-hidden="true"></i>
+                                <span>
+                                    <span class="santa-detail-label">Organizer</span>
+                                    <strong>@item.OrganizerName</strong>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="santa-event-actions">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success btn-sm">
+                                <i class="bi bi-eye me-1" aria-hidden="true"></i>
+                                Details
+                            </a>
+
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-success btn-sm">
+                                <i class="bi bi-pencil-square me-1" aria-hidden="true"></i>
+                                Edit
+                            </a>
+
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn santa-event-delete btn-sm"
+                               aria-label="Delete @item.Name" title="Delete event">
+                                <i class="bi bi-trash3" aria-hidden="true"></i>
+                            </a>
+                        </div>
+
+                    </article>
+                </div>
+            }
+        </div>
+    }
+</div>

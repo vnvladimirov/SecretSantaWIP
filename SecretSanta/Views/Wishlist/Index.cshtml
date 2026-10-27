@@ -1,87 +1,175 @@
-@model IEnumerable<SecretSanta.Models.WishlistItem>
 @using SecretSanta.Models
+@using System.Linq
+@model IEnumerable<SecretSanta.Models.WishlistItem>
 
 @{
     ViewData["Title"] = "Wishlist";
+
     var participant = ViewBag.Participant as Participant;
+    var items = Model?.ToList() ?? new List<WishlistItem>();
+    var isReadOnly = ViewBag.ReadOnly == true;
 }
 
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h1 class="h2 mb-1">
-                <i class="bi bi-gift"></i> Wishlist
-            </h1>
-            <p class="text-muted mb-0">
-                Gift ideas for @(participant?.Name ?? "this participant")
-            </p>
-        </div>
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/participant-wishlist.css" asp-append-version="true" />
+}
+
+<div class="santa-wishlist-page">
+    <div class="santa-wishlist-navigation">
+        <a asp-controller="ParticipantAccess" asp-action="Welcome" class="btn btn-outline-success">
+            <i class="bi bi-arrow-left me-2" aria-hidden="true"></i>
+            Back to Welcome
+        </a>
     </div>
 
-@if (ViewBag.ReadOnly != true)
-{
-            <a asp-action="Create" asp-route-participantId="@participant?.Id" class="btn btn-success">
-                <i class="bi bi-plus-lg"></i> Add gift idea
-            </a>
-}
+    <header class="santa-wishlist-heading">
+        <div>
+            <span class="santa-eyebrow">
+                <i class="bi bi-stars" aria-hidden="true"></i>
+                @(isReadOnly ? "GIFT INSPIRATION" : "YOUR GIFT IDEAS")
+            </span>
 
-    @if (!Model.Any())
-    {
-        if (ViewBag.ReadOnly != true)
+            <h1 class="santa-wishlist-title mt-2">
+                <i class="bi bi-gift-fill santa-wishlist-title-icon" aria-hidden="true"></i>
+                @(isReadOnly ? $"{participant?.Name ?? "Their"}'s Wishlist" : "My Wishlist")
+            </h1>
+
+            <p class="santa-wishlist-intro">
+                @if (isReadOnly)
+                {
+                    <text>Take a look at these ideas to find a thoughtful gift.</text>
+                }
+                else
+                {
+                    <text>Add a few ideas to help your Secret Santa find something you'll love.</text>
+                }
+            </p>
+        </div>
+
+        @if (!isReadOnly)
         {
-        <div class="card border-0 shadow-sm">
-            <div class="card-body text-center py-5">
-                <h3 class="h5">Your wishlist is empty</h3>
-                <p class="text-muted">
-                    Add some gift ideas to help your Secret Santa.
-                </p>
-                <a asp-action="Create" asp-route-participantId="@participant?.Id" class="btn btn-success">
-                    Add your first gift idea
-                </a>
-            </div>
-        </div>
+            <a asp-action="Create" asp-route-participantId="@participant?.Id"
+               class="btn btn-success santa-wishlist-add-button">
+                <i class="bi bi-plus-lg me-2" aria-hidden="true"></i>
+                Add gift idea
+            </a>
         }
-    }
-    else
+    </header>
+
+    @if (items.Count == 0)
     {
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-            @foreach (var item in Model)
-            {
-                <div class="col">
-                    <div class="card h-100 shadow-sm border-0">
-                        <div class="card-body">
-                            <h2 class="h5 card-title">@item.Title</h2>
+        <section class="santa-wishlist-empty">
+            <div class="santa-wishlist-empty-icon" aria-hidden="true">
+                <i class="bi bi-gift"></i>
+            </div>
 
-                            @if (!string.IsNullOrWhiteSpace(item.Description))
-                            {
-                                <p class="card-text text-muted">
-                                    @item.Description
-                                </p>
-                            }
+            <h2>
+                @(isReadOnly ? "No gift ideas yet" : "Your wishlist is a blank canvas")
+            </h2>
 
-                            @if (!string.IsNullOrWhiteSpace(item.ProductUrl))
-                            {
-                                <a href="@item.ProductUrl" target="_blank" rel="noopener noreferrer"
-                                   class="btn btn-outline-primary btn-sm">
-                                    View gift link
-                                </a>
-                            }
-                        </div>
-                    @if (ViewBag.ReadOnly != true)
-                        {
-                        <div class="card-footer bg-white border-0 d-flex gap-2">
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm">
-                                Edit
-                            </a>
+            <p>
+                @if (isReadOnly)
+                {
+                    <text>This participant hasn't added any gift ideas yet. Check back later for inspiration.</text>
+                }
+                else
+                {
+                    <text>Start with something you've been wanting, a favorite book, or a little treat you'd love to
+                        receive.</text>
+                    }
+                </p>
 
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm">
-                                Delete
-                            </a>
-                        </div>
-                         }
-                    </div>     
+                @if (!isReadOnly)
+                {
+                    <a asp-action="Create" asp-route-participantId="@participant?.Id" class="btn btn-success">
+                        <i class="bi bi-plus-lg me-2" aria-hidden="true"></i>
+                        Add your first gift idea
+                    </a>
+                }
+            </section>
+        }
+    else
+        {
+            <div class="santa-wishlist-list-heading">
+                <div>
+                    <h2>Gift ideas</h2>
+                    <p>A little inspiration goes a long way.</p>
                 </div>
-            }
+
+                <span class="santa-wishlist-count">
+                    <i class="bi bi-gift me-1" aria-hidden="true"></i>
+                    @items.Count idea@(items.Count == 1 ? "" : "s")
+                </span>
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+                @foreach (var item in items)
+                {
+                    <div class="col">
+                        <article class="card santa-wishlist-card h-100">
+
+                            <div class="santa-wishlist-card-top">
+                                <div class="santa-wishlist-item-icon" aria-hidden="true">
+                                    <i class="bi bi-gift-fill"></i>
+                                </div>
+
+                                <span class="santa-wishlist-item-label">
+                                    GIFT IDEA
+                                </span>
+                            </div>
+
+                            <div class="card-body santa-wishlist-card-body">
+                                <h3 class="santa-wishlist-item-title">
+                                    @item.Title
+                                </h3>
+
+                                @if (!string.IsNullOrWhiteSpace(item.Description))
+                                {
+                                    <p class="santa-wishlist-item-description">
+                                        @item.Description
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p class="santa-wishlist-item-description santa-wishlist-no-description">
+                                        No description provided.
+                                    </p>
+                                }
+
+                                @if (!string.IsNullOrWhiteSpace(item.ProductUrl))
+                                {
+                                    <a href="@item.ProductUrl" target="_blank" rel="noopener noreferrer"
+                                       class="btn btn-outline-success santa-wishlist-product-link">
+                                        <i class="bi bi-box-arrow-up-right me-2" aria-hidden="true"></i>
+                                        View gift link
+                                    </a>
+                                }
+                            </div>
+
+                            @if (!isReadOnly)
+                            {
+                                <div class="santa-wishlist-card-actions">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-success btn-sm">
+                                        <i class="bi bi-pencil-square me-1" aria-hidden="true"></i>
+                                        Edit
+                                    </a>
+
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm santa-wishlist-delete-button">
+                                        <i class="bi bi-trash3 me-1" aria-hidden="true"></i>
+                                        Delete
+                                    </a>
+                                </div>
+                            }
+
+                        </article>
+                    </div>
+                }
+            </div>
+        }
+
+        <div class="santa-wishlist-footer-note">
+            <i class="bi bi-heart-fill" aria-hidden="true"></i>
+            Thoughtful ideas make gift giving extra special.
         </div>
-    }
-</div>
+
+    </div>

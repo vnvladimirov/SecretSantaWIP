@@ -1,138 +1,355 @@
-@using NetTopologySuite.Index.HPRtree
 @model SecretSanta.Models.Event
 
 @{
     ViewData["Title"] = "Event Details";
 
+    var hasAssignments = Model.Assignments.Any();
+    var latestRound = hasAssignments
+        ? Model.Assignments.Max(a => a.Round)
+        : 0;
+
     var canDraw = Model.Participants.Count >= Model.MinParticipants;
+
+    var participantProgress = Model.MinParticipants > 0
+        ? Math.Min(100, (int)Math.Round(
+            (double)Model.Participants.Count / Model.MinParticipants * 100))
+        : 100;
 
     var activeInvitations =
         ViewBag.ActiveInvitations as Dictionary<int, int>
         ?? new Dictionary<int, int>();
 }
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/event-details.css" asp-append-version="true">
+}
 
-<h1>@Model.Name</h1>
+@if (hasAssignments)
+{
+    <div class="alert alert-info santa-status-message">
+        <i class="bi bi-check-circle-fill me-2" aria-hidden="true"></i>
+        <strong>Draw complete!</strong>
+        Round @latestRound has been completed. Participants can open their reveal pages.
+    </div>
+}
 
 @if (TempData["Success"] != null)
 {
-    <div class="alert alert-success">@TempData["Success"]</div>
+    <div class="alert alert-success santa-status-message">
+        <i class="bi bi-check-circle-fill me-2" aria-hidden="true"></i>
+        @TempData["Success"]
+    </div>
 }
 
 @if (TempData["Error"] != null)
 {
-    <div class="alert alert-danger">@TempData["Error"]</div>
-}
-
-<dl class="row">
-    <dt class="col-sm-2">Description</dt>
-    <dd class="col-sm-10">@Model.Description</dd>
-
-    <dt class="col-sm-2">Date</dt>
-    <dd class="col-sm-10">@Model.EventDate.ToString("dd MMM yyyy")</dd>
-
-    <dt class="col-sm-2">Budget</dt>
-    <dd class="col-sm-10">@Model.Budget.ToString("0.00")</dd>
-
-    <dt class="col-sm-2">Minimum participants</dt>
-    <dd class="col-sm-10">@Model.MinParticipants</dd>
-
-    <dt class="col-sm-2">Organizer</dt>
-    <dd class="col-sm-10">@Model.OrganizerName</dd>
-
-    <dt class="col-sm-2">Email</dt>
-    <dd class="col-sm-10">@Model.OrganizerEmail</dd>
-</dl>
-
-<h3>
-    Participants (@Model.Participants.Count / minimum @Model.MinParticipants)
-</h3>
-
-<form asp-action="Draw" asp-route-id="@Model.Id" method="post" class="d-inline">
-    <button type="submit" class="btn btn-warning" disabled="@(!canDraw)">
-        Draw names
-    </button>
-</form>
-
-@if (!canDraw)
-{
-    <span class="text-muted ms-2">
-        @(Model.MinParticipants - Model.Participants.Count) more participants needed
-    </span>
-}
-
-<a asp-controller="Participants" asp-action="Create" asp-route-eventId="@Model.Id" class="btn btn-success mb-3">
-    Add participant
-</a>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var p in Model.Participants)
-        {
-            <tr>
-                <td>@p.Name</td>
-                <td>@p.Email</td>
-                <td>
-                    @if (Model.Assignments.Any())
-                    {
-                        <a asp-controller="Participants" asp-action="Reveal" asp-route-id="@p.Id" class="btn btn-sm btn-outline-success" aria-label="Reveal" title="Reveal">
-                            <i class="bi bi-eye"></i>
-                            </a>
-                        <span></span>
-                    }
-
-                    <a asp-controller="Participants" asp-action="Edit" asp-route-id="@p.Id" class="btn btn-sm btn-outline-success" aria-label="Edit" title="Edit">
-                        <i class="bi bi-pencil-square" aria-hidden="true"></i> 
-                        Edit
-                    </a>
-                    <span></span>
-
-                    <a asp-controller="Participants" asp-action="Delete" asp-route-id="@p.Id" class="btn btn-sm btn-outline-danger" aria-label="Delete" title="Delete">
-                        <i class="bi bi-trash" aria-hidden="true"></i>
-                        Delete
-                    </a>
-
-                    <a asp-controller="Wishlist" asp-action="Details" asp-route-participantId="@p.Id" class="btn btn-outline-primary btn-sm">
-                        <i class="bi bi-gift"></i> View Wishlist
-                    </a>
-
-
-                    <form asp-controller="ParticipantInvitations" asp-action="Generate" method="post" class="d-inline">
-                        <input type="hidden" name="participantId" value="@p.Id" />
-                        <button type="submit" class="btn btn-primary btn-sm">
-                            Generate Invitation
-                        </button>
-                    </form>
-
-                    @if (activeInvitations.TryGetValue(p.Id, out var invitationId))
-                    {
-                        <form asp-controller="ParticipantInvitations" asp-action="Revoke" method="post" class="d-inline">
-                            <input type="hidden" name="id" value="@invitationId" />
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                Revoke Invitation
-                            </button>
-                        </form>
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-@if (Model.Assignments.Any())
-{
-    <div class="alert alert-info">
-        Draw complete (round @Model.Assignments.Max(a => a.Round)).
-        Each participant can open their reveal page.
+    <div class="alert alert-danger santa-status-message">
+        <i class="bi bi-exclamation-triangle-fill me-2" aria-hidden="true"></i>
+        @TempData["Error"]
     </div>
 }
 
-<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+<div class="santa-event-details-page">
 
-<a asp-action="Index" class="btn btn-secondary">Back to list</a>
+
+    <header class="santa-details-heading">
+        <div class="santa-details-heading-copy">
+            <span class="santa-eyebrow">
+                <i class="bi bi-stars" aria-hidden="true"></i>
+                EVENT OVERVIEW
+            </span>
+
+            <h1 class="santa-details-title mt-2">@Model.Name</h1>
+
+            <p class="santa-details-intro">
+                Everything you need to organize your Secret Santa event.
+            </p>
+        </div>
+
+        <div class="santa-details-heading-icon" aria-hidden="true">
+            <i class="bi bi-gift-fill"></i>
+        </div>
+    </header>
+
+
+    <section class="card santa-event-info-card mb-4">
+        <div class="santa-section-heading">
+            <div class="santa-section-heading-icon">
+                <i class="bi bi-calendar-heart" aria-hidden="true"></i>
+            </div>
+
+            <div>
+                <h2>Event information</h2>
+                <p>Details and settings for your gift exchange.</p>
+            </div>
+        </div>
+
+        <div class="santa-event-info-grid">
+
+            <div class="santa-event-info-item">
+                <dt>
+                    <i class="bi bi-card-text" aria-hidden="true"></i>
+                    Description
+                </dt>
+                <dd>
+                    @(string.IsNullOrWhiteSpace(Model.Description)
+                        ? "No description provided."
+                        : Model.Description)
+                </dd>
+            </div>
+
+            <div class="santa-event-info-item">
+                <dt>
+                    <i class="bi bi-calendar-event" aria-hidden="true"></i>
+                    Event date
+                </dt>
+                <dd>@Model.EventDate.ToString("dd MMM yyyy")</dd>
+            </div>
+
+            <div class="santa-event-info-item">
+                <dt>
+                    <i class="bi bi-cash-coin" aria-hidden="true"></i>
+                    Gift budget
+                </dt>
+                <dd>@Model.Budget.ToString("0.00")</dd>
+            </div>
+
+            <div class="santa-event-info-item">
+                <dt>
+                    <i class="bi bi-people" aria-hidden="true"></i>
+                    Minimum participants
+                </dt>
+                <dd>@Model.MinParticipants</dd>
+            </div>
+
+            <div class="santa-event-info-item">
+                <dt>
+                    <i class="bi bi-person-badge" aria-hidden="true"></i>
+                    Organizer
+                </dt>
+                <dd>@Model.OrganizerName</dd>
+            </div>
+
+            <div class="santa-event-info-item">
+                <dt>
+                    <i class="bi bi-envelope" aria-hidden="true"></i>
+                    Organizer email
+                </dt>
+                <dd>
+                    @if (!string.IsNullOrWhiteSpace(Model.OrganizerEmail))
+                    {
+                        <a href="mailto:@Model.OrganizerEmail">
+                            @Model.OrganizerEmail
+                        </a>
+                    }
+                    else
+                    {
+                        <span>Not provided</span>
+                    }
+                </dd>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="santa-participants-section">
+
+        <div class="santa-participants-heading">
+            <div class="santa-participants-heading-copy">
+                <span class="santa-eyebrow">
+                    <i class="bi bi-people-fill" aria-hidden="true"></i>
+                    THE GUEST LIST
+                </span>
+
+                <h2 class="santa-participants-title mt-2">Participants</h2>
+
+                <p class="santa-details-intro">
+                    Manage your guests and prepare the gift exchange.
+                </p>
+            </div>
+
+            <div class="santa-participant-progress-card">
+                <div class="santa-participant-progress-label">
+                    <span>Participants</span>
+                    <strong>
+                        @Model.Participants.Count / @Model.MinParticipants
+                    </strong>
+                </div>
+
+                <div class="progress santa-participant-progress" role="progressbar"
+                     aria-label="Progress toward minimum participants" aria-valuenow="@participantProgress"
+                     aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar santa-participant-progress-bar" style="width: @(participantProgress)%">
+                    </div>
+                </div>
+
+                <span class="santa-progress-caption">
+                    @if (canDraw)
+                    {
+                        <span>
+                            <i class="bi bi-check-circle-fill me-1" aria-hidden="true"></i>
+                            Minimum reached
+                        </span>
+                    }
+                    else
+                    {
+                        <span>
+                            @(Model.MinParticipants - Model.Participants.Count)
+                            more needed
+                        </span>
+                    }
+                </span>
+            </div>
+        </div>
+
+        <div class="santa-participant-toolbar">
+            <div class="santa-draw-area">
+                @if (canDraw)
+                {
+                    <a asp-action="Draw" asp-route-id="@Model.Id" class="btn btn-warning santa-draw-button">
+                        <i class="bi bi-shuffle me-2" aria-hidden="true"></i>
+                        Draw names
+                    </a>
+                }
+                else
+                {
+                    <a asp-action="Draw" asp-route-id="@Model.Id" class="btn btn-warning santa-draw-button disabled"
+                       aria-disabled="true" tabindex="-1">
+                        <i class="bi bi-shuffle me-2" aria-hidden="true"></i>
+                        Draw names
+                    </a>
+                }
+
+                @if (!canDraw)
+                {
+                    <span class="santa-draw-help">
+                        Add more participants before drawing names.
+                    </span>
+                }
+            </div>
+
+            <a asp-controller="Participants" asp-action="Create" asp-route-eventId="@Model.Id"
+               class="btn btn-success santa-add-participant">
+                <i class="bi bi-person-plus-fill me-2" aria-hidden="true"></i>
+                Add participant
+            </a>
+        </div>
+
+        @if (Model.Participants.Any())
+        {
+            <div class="santa-participants-list">
+                @foreach (var p in Model.Participants)
+                {
+                    <article class="santa-participant-card">
+
+                        <div class="santa-participant-info">
+                            <div class="santa-participant-avatar" aria-hidden="true">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+
+                            <div class="santa-participant-identity">
+                                <h3>@p.Name</h3>
+
+                                <a class="santa-participant-email" href="mailto:@p.Email">
+                                    <i class="bi bi-envelope me-1" aria-hidden="true"></i>
+                                    @p.Email
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="santa-participant-actions">
+
+                            <div class="santa-participant-action-row">
+                                @if (hasAssignments)
+                                {
+                                    <a asp-controller="Participants" asp-action="Reveal" asp-route-id="@p.Id"
+                                       class="btn btn-sm btn-outline-success" title="Reveal assignment"
+                                       aria-label="Reveal assignment for @p.Name">
+                                        <i class="bi bi-eye me-1" aria-hidden="true"></i>
+                                        Reveal
+                                    </a>
+                                }
+
+                                <a asp-controller="Participants" asp-action="Edit" asp-route-id="@p.Id"
+                                   class="btn btn-sm btn-outline-success">
+                                    <i class="bi bi-pencil-square me-1" aria-hidden="true"></i>
+                                    Edit
+                                </a>
+
+                                <a asp-controller="Wishlist" asp-action="Details" asp-route-participantId="@p.Id"
+                                   class="btn btn-sm btn-outline-success">
+                                    <i class="bi bi-gift me-1" aria-hidden="true"></i>
+                                    Wishlist
+                                </a>
+
+                                <a asp-controller="Participants" asp-action="Delete" asp-route-id="@p.Id"
+                                   class="btn btn-sm santa-participant-delete">
+                                    <i class="bi bi-trash3 me-1" aria-hidden="true"></i>
+                                    Delete
+                                </a>
+                            </div>
+
+                            <div class="santa-participant-action-row santa-invitation-actions">
+                                <form asp-controller="ParticipantInvitations" asp-action="Generate" method="post"
+                                      class="santa-inline-form">
+                                    <input type="hidden" name="participantId" value="@p.Id" />
+
+                                    <button type="submit" class="btn btn-sm santa-invite-button">
+                                        <i class="bi bi-link-45deg me-1" aria-hidden="true"></i>
+                                        Generate invitation
+                                    </button>
+                                </form>
+
+                                @if (activeInvitations.TryGetValue(p.Id, out var invitationId))
+                                {
+                                    <form asp-controller="ParticipantInvitations" asp-action="Revoke" method="post"
+                                          class="santa-inline-form">
+                                        <input type="hidden" name="id" value="@invitationId" />
+
+                                        <button type="submit" class="btn btn-sm santa-revoke-button">
+                                            <i class="bi bi-link-45deg me-1" aria-hidden="true"></i>
+                                            Revoke invitation
+                                        </button>
+                                    </form>
+                                }
+                            </div>
+
+                        </div>
+
+                    </article>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="santa-participants-empty">
+                <div class="santa-empty-icon">
+                    <i class="bi bi-people" aria-hidden="true"></i>
+                </div>
+
+                <h3>No participants yet</h3>
+
+                <p>Add your first participant to get the gift exchange started.</p>
+
+                <a asp-controller="Participants" asp-action="Create" asp-route-eventId="@Model.Id" class="btn btn-success">
+                    <i class="bi bi-person-plus-fill me-2" aria-hidden="true"></i>
+                    Add first participant
+                </a>
+            </div>
+        }
+
+    </section>
+
+    <div class="santa-details-footer-actions">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success">
+            <i class="bi bi-pencil-square me-2" aria-hidden="true"></i>
+            Edit event
+        </a>
+
+        <a asp-action="Index" class="btn btn-outline-success">
+            <i class="bi bi-arrow-left me-2" aria-hidden="true"></i>
+            Back to events
+        </a>
+    </div>
+
+</div>

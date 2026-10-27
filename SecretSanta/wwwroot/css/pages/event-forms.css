@@ -1,0 +1,201 @@
+.santa-event-form-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding-bottom: 1.5rem;
+}
+
+.santa-form-heading {
+    margin: 0.5rem 0 1.75rem;
+}
+
+.santa-form-title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+}
+
+.santa-form-intro {
+    max-width: 650px;
+    margin-bottom: 0;
+    color: var(--santa-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.santa-event-form-card {
+    overflow: hidden;
+    border: 1px solid var(--santa-border);
+    border-radius: 22px;
+    background: #fffdf9;
+    box-shadow: 0 8px 26px rgba(65, 47, 40, 0.06);
+}
+
+.santa-form-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--santa-border);
+    background: linear-gradient(135deg, #fffdf9, #fff5ec);
+}
+
+.santa-form-header-icon {
+    display: flex;
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background: #ffeaeb;
+    color: var(--santa-red-dark);
+    font-size: 1.5rem;
+}
+
+.santa-form-card-header h2 {
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.santa-form-card-header p {
+    margin: 0.3rem 0 0;
+    color: var(--santa-muted);
+    font-size: 0.9rem;
+}
+
+.santa-form-card-body {
+    padding: clamp(1.25rem, 4vw, 2rem);
+}
+
+.santa-form-section-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 1.25rem;
+}
+
+.santa-form-section-heading > i {
+    color: var(--santa-green);
+    font-size: 1.2rem;
+}
+
+.santa-form-section-heading h3 {
+    margin: 0;
+    font-size: 1.08rem;
+}
+
+.santa-organizer-heading {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--santa-border);
+}
+
+.santa-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem 1.5rem;
+}
+
+.santa-form-field {
+    min-width: 0;
+}
+
+.santa-form-field-wide {
+    grid-column: 1 / -1;
+}
+
+.santa-form-field .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--santa-text);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.santa-form-field .form-label i {
+    color: var(--santa-green);
+}
+
+.santa-form-field .form-control {
+    min-height: 46px;
+    background-color: #ffffff;
+}
+
+.santa-form-field textarea.form-control {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.santa-form-field .form-control:focus {
+    border-color: var(--santa-green);
+    box-shadow: 0 0 0 0.2rem rgba(33, 140, 104, 0.13);
+}
+
+.santa-field-validation {
+    display: block;
+    margin-top: 0.4rem;
+    color: var(--santa-red-dark);
+    font-size: 0.82rem;
+}
+
+.santa-validation-summary {
+    margin-bottom: 1.25rem;
+    color: var(--santa-red-dark);
+    font-size: 0.9rem;
+}
+
+.santa-validation-summary:empty {
+    display: none;
+}
+
+.santa-validation-summary ul {
+    margin-bottom: 0;
+    padding-left: 1.25rem;
+}
+
+.santa-form-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 1.25rem clamp(1.25rem, 4vw, 2rem);
+    border-top: 1px solid var(--santa-border);
+    background: #ffffff;
+}
+
+.santa-form-card-footer .btn {
+    min-height: 44px;
+    border-radius: 11px;
+}
+
+.santa-form-submit-button {
+    box-shadow: 0 4px 12px rgba(33, 140, 104, 0.14);
+}
+
+.santa-form-back-button {
+    background: #ffffff;
+}
+
+@media (max-width: 575.98px) {
+    .santa-form-card-header {
+        padding: 1.2rem;
+    }
+
+    .santa-form-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .santa-form-field-wide {
+        grid-column: auto;
+    }
+
+    .santa-form-card-footer {
+        align-items: stretch;
+        flex-direction: column-reverse;
+    }
+
+    .santa-form-card-footer .btn {
+        width: 100%;
+    }
+}

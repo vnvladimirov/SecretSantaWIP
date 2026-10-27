@@ -2,38 +2,143 @@
 
 @{
     ViewData["Title"] = "Welcome";
+
     var participant = ViewBag.Participant as Participant;
+    var participantName = participant?.Name ?? "there";
+    var participantId = participant?.Id;
     var eventName = ViewBag.EventName as string ?? "Secret Santa";
 }
 
-@if (ViewBag.ReceiverName != null)
-{
-    <div class="card bg-light border-0 mb-4">
-        <div class="card-body">
-            <div class="fs-1 mb-2">🎁</div>
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/participant-welcome.css" asp-append-version="true" />
+}
 
-            <h2 class="h4">Your Secret Santa recipient</h2>
+<div class="santa-participant-welcome">
 
-            <p class="fs-5 mb-3">
-                You're buying a gift for
-                <strong>@ViewBag.ReceiverName</strong>!
+    <section class="santa-participant-hero">
+        <div class="santa-participant-hero-copy">
+            <span class="santa-eyebrow">
+                <i class="bi bi-stars" aria-hidden="true"></i>
+                YOUR SECRET SANTA EXPERIENCE
+            </span>
+
+            <h1 class="santa-participant-hero-title mt-3">
+                Welcome, @participantName!
+            </h1>
+
+            <p class="santa-participant-hero-description">
+                You're part of something special. Get ready for a little
+                mystery, thoughtful gifts, and Christmas magic.
             </p>
 
-            <a asp-controller="MyWishlist" asp-action="RecipientWishlist" asp-route-participantId="@ViewBag.ReceiverId"
-               class="btn btn-outline-success">
-                View their wishlist
-            </a>
-
-            <a asp-controller="Wishlist" asp-action="Index" asp-route-participantId="@participant.Id" class="btn btn-success btn-lg w-100 mb-3">
-                <i class="bi bi-gift"></i>My Wishlist
-            </a>
+            <div class="santa-participant-event-label">
+                <i class="bi bi-calendar-heart" aria-hidden="true"></i>
+                <span>@eventName</span>
+            </div>
         </div>
+
+        <div class="santa-participant-hero-art" aria-hidden="true">
+            <div class="santa-participant-sparkle sparkle-one">✦</div>
+            <div class="santa-participant-sparkle sparkle-two">✧</div>
+            <div class="santa-participant-gift">
+                <i class="bi bi-gift-fill"></i>
+            </div>
+            <div class="santa-participant-heart">
+                <i class="bi bi-heart-fill"></i>
+            </div>
+        </div>
+    </section>
+
+    <section class="santa-participant-actions-section">
+        <div class="santa-participant-section-heading">
+            <span class="santa-eyebrow">YOUR SPACE</span>
+            <h2>Let the magic begin</h2>
+            <p>Everything you need for your Secret Santa experience.</p>
+        </div>
+
+        <div class="santa-participant-action-grid">
+
+            <article class="santa-participant-action-card">
+                <div class="santa-participant-action-icon santa-action-icon-green">
+                    <i class="bi bi-gift-fill" aria-hidden="true"></i>
+                </div>
+
+                <span class="santa-participant-card-label">
+                    YOUR GIFT IDEAS
+                </span>
+
+                <h3>My Wishlist</h3>
+
+                <p>
+                    Add the things you'd love to receive. A few thoughtful
+                    ideas can help your Secret Santa find the perfect gift.
+                </p>
+
+                <a asp-controller="MyWishlist" asp-action="Index" asp-route-participantId="@participantId"
+                   class="btn btn-success santa-participant-action-button">
+                    <i class="bi bi-pencil-square me-2" aria-hidden="true"></i>
+                    Manage my wishlist
+                </a>
+            </article>
+
+            @if (ViewBag.ReceiverName != null)
+            {
+                <article class="santa-participant-action-card santa-recipient-card">
+                    <div class="santa-participant-action-icon santa-action-icon-red">
+                        <i class="bi bi-gift" aria-hidden="true"></i>
+                    </div>
+
+                    <span class="santa-participant-card-label">
+                        YOUR SECRET ASSIGNMENT
+                    </span>
+
+                    <h3>Your Secret Santa recipient</h3>
+
+                    <p>
+                        You're buying a gift for
+                        <strong>@ViewBag.ReceiverName</strong>!
+                        Take a look at their wishlist for some inspiration.
+                    </p>
+
+                    <a asp-controller="MyWishlist" asp-action="RecipientWishlist"
+                       asp-route-participantId="@ViewBag.ReceiverId"
+                       class="btn btn-outline-success santa-participant-action-button">
+                        <i class="bi bi-eye me-2" aria-hidden="true"></i>
+                        View their wishlist
+                    </a>
+                </article>
+            }
+            else
+            {
+                <article class="santa-participant-action-card santa-draw-pending-card">
+                    <div class="santa-participant-action-icon santa-action-icon-yellow">
+                        <i class="bi bi-hourglass-split" aria-hidden="true"></i>
+                    </div>
+
+                    <span class="santa-participant-card-label">
+                        THE MYSTERY CONTINUES
+                    </span>
+
+                    <h3>Your recipient is waiting to be revealed</h3>
+
+                    <p>
+                        The organizer hasn't completed the draw yet.
+                        You can prepare your wishlist in the meantime.
+                    </p>
+
+                    <div class="santa-pending-note">
+                        <i class="bi bi-clock me-2" aria-hidden="true"></i>
+                        Check back after the draw.
+                    </div>
+                </article>
+            }
+
+        </div>
+    </section>
+
+    <div class="santa-participant-footer-note">
+        <i class="bi bi-heart-fill" aria-hidden="true"></i>
+        The best gifts come with a little thought and a lot of heart.
     </div>
-}
-else
-{
-    <div class="alert alert-info mb-4">
-        Your Secret Santa draw hasn't been completed yet.
-        Check back after the organizer runs the draw.
-    </div>
-}
+
+</div>

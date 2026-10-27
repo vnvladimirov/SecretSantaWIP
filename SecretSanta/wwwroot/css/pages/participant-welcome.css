@@ -1,0 +1,273 @@
+.santa-participant-welcome {
+    padding-bottom: 1.5rem;
+}
+
+.santa-participant-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.65fr);
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+    padding: clamp(1.5rem, 5vw, 3.5rem);
+    overflow: hidden;
+    border: 1px solid var(--santa-border);
+    border-radius: 28px;
+    background: linear-gradient(135deg, #fffdf9 0%, #fff0e7 100%);
+}
+
+.santa-participant-hero-copy {
+    min-width: 0;
+}
+
+.santa-participant-hero-title {
+    font-size: clamp(2.1rem, 4vw, 3.4rem);
+    font-weight: 850;
+    line-height: 1.12;
+    letter-spacing: -0.05em;
+    overflow-wrap: anywhere;
+}
+
+.santa-participant-hero-description {
+    max-width: 560px;
+    margin: 1rem 0 1.25rem;
+    color: var(--santa-muted);
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+
+.santa-participant-event-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    max-width: 100%;
+    padding: 0.6rem 0.85rem;
+    border: 1px solid #d8eadf;
+    border-radius: 12px;
+    background: #e3f2e8;
+    color: var(--santa-green-dark);
+    font-size: 0.9rem;
+    font-weight: 750;
+    overflow-wrap: anywhere;
+}
+
+.santa-participant-hero-art {
+    position: relative;
+    display: flex;
+    min-height: 220px;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 24px;
+    background: #e3f2e8;
+}
+
+.santa-participant-gift {
+    display: flex;
+    width: 124px;
+    height: 124px;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(-7deg);
+    border: 5px solid #c93649;
+    border-radius: 28px;
+    background: var(--santa-red);
+    box-shadow: 0 16px 30px rgba(70, 70, 60, 0.15);
+    color: #ffffff;
+    font-size: 4rem;
+}
+
+.santa-participant-heart {
+    position: absolute;
+    right: 15%;
+    bottom: 17%;
+    display: flex;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(10deg);
+    border-radius: 15px;
+    background: #fffdf9;
+    color: var(--santa-red);
+    font-size: 1.4rem;
+    box-shadow: 0 7px 18px rgba(70, 70, 60, 0.1);
+}
+
+.santa-participant-sparkle {
+    position: absolute;
+    color: var(--santa-green);
+    font-size: 2rem;
+}
+
+.santa-participant-sparkle.sparkle-one {
+    top: 14%;
+    left: 15%;
+}
+
+.santa-participant-sparkle.sparkle-two {
+    top: 18%;
+    right: 18%;
+    color: #e9ae35;
+}
+
+.santa-participant-actions-section {
+    margin-top: 2rem;
+}
+
+.santa-participant-section-heading {
+    margin-bottom: 1.25rem;
+}
+
+.santa-participant-section-heading h2 {
+    margin: 0.45rem 0;
+    font-size: clamp(1.7rem, 3vw, 2.2rem);
+}
+
+.santa-participant-section-heading p {
+    margin: 0;
+    color: var(--santa-muted);
+    line-height: 1.65;
+}
+
+.santa-participant-action-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 1.25rem;
+}
+
+.santa-participant-action-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: clamp(1.3rem, 3vw, 2rem);
+    border: 1px solid var(--santa-border);
+    border-radius: 22px;
+    background: #fffdf9;
+    box-shadow: 0 6px 20px rgba(65, 47, 40, 0.045);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.santa-participant-action-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 26px rgba(65, 47, 40, 0.08);
+}
+
+.santa-participant-action-icon {
+    display: flex;
+    width: 54px;
+    height: 54px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    border-radius: 17px;
+    font-size: 1.5rem;
+}
+
+.santa-action-icon-green {
+    background: #e3f2e8;
+    color: var(--santa-green-dark);
+}
+
+.santa-action-icon-red {
+    background: #ffeaeb;
+    color: var(--santa-red-dark);
+}
+
+.santa-action-icon-yellow {
+    background: #fff3cf;
+    color: #946200;
+}
+
+.santa-participant-card-label {
+    margin-bottom: 0.45rem;
+    color: var(--santa-muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+}
+
+.santa-participant-action-card h3 {
+    margin: 0 0 0.75rem;
+    font-size: 1.35rem;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.santa-participant-action-card p {
+    margin-bottom: 1.5rem;
+    color: var(--santa-muted);
+    line-height: 1.75;
+}
+
+.santa-participant-action-button {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+    border-radius: 11px;
+    font-weight: 700;
+}
+
+.santa-pending-note {
+    display: flex;
+    align-items: flex-start;
+    margin-top: auto;
+    padding: 0.8rem 0.9rem;
+    border: 1px solid #f0e0b1;
+    border-radius: 12px;
+    background: #fff8e7;
+    color: #805d15;
+    font-size: 0.88rem;
+    font-weight: 650;
+}
+
+.santa-participant-footer-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    margin-top: 2rem;
+    color: var(--santa-muted);
+    font-size: 0.88rem;
+    text-align: center;
+}
+
+.santa-participant-footer-note i {
+    color: var(--santa-red);
+}
+
+@media (max-width: 767.98px) {
+    .santa-participant-hero {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.5rem;
+        padding: 1.5rem;
+        border-radius: 22px;
+    }
+
+    .santa-participant-hero-art {
+        min-height: 190px;
+    }
+
+    .santa-participant-gift {
+        width: 100px;
+        height: 100px;
+        font-size: 3.2rem;
+    }
+
+    .santa-participant-action-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .santa-participant-action-card {
+        transition: none;
+    }
+
+    .santa-participant-action-card:hover {
+        transform: none;
+    }
+}

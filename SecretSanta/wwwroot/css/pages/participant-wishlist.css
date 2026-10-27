@@ -1,0 +1,263 @@
+.santa-wishlist-page {
+    padding-bottom: 1.5rem;
+}
+
+.santa-wishlist-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin: 0.5rem 0 2rem;
+}
+
+.santa-wishlist-title {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+
+.santa-wishlist-title-icon {
+    color: var(--santa-red);
+    font-size: 0.85em;
+}
+
+.santa-wishlist-intro {
+    max-width: 620px;
+    margin: 0;
+    color: var(--santa-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.santa-wishlist-add-button {
+    flex-shrink: 0;
+    white-space: nowrap;
+    box-shadow: 0 5px 14px rgba(33, 140, 104, 0.14);
+}
+
+.santa-wishlist-list-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.santa-wishlist-list-heading h2 {
+    margin: 0 0 0.25rem;
+    font-size: 1.4rem;
+}
+
+.santa-wishlist-list-heading p {
+    margin: 0;
+    color: var(--santa-muted);
+    font-size: 0.9rem;
+}
+
+.santa-wishlist-count {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d8eadf;
+    border-radius: 12px;
+    background: #e3f2e8;
+    color: var(--santa-green-dark);
+    font-size: 0.84rem;
+    font-weight: 750;
+    white-space: nowrap;
+}
+
+.santa-wishlist-card {
+    overflow: hidden;
+    border: 1px solid var(--santa-border);
+    border-radius: 20px;
+    background: #fffdf9;
+    box-shadow: 0 5px 18px rgba(65, 47, 40, 0.045);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.santa-wishlist-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 26px rgba(65, 47, 40, 0.09);
+}
+
+.santa-wishlist-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 1.2rem 1.2rem 0;
+}
+
+.santa-wishlist-item-icon {
+    display: flex;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    background: #ffeaeb;
+    color: var(--santa-red-dark);
+    font-size: 1.35rem;
+}
+
+.santa-wishlist-item-label {
+    color: var(--santa-muted);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+}
+
+.santa-wishlist-card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem 1.2rem 1.3rem;
+}
+
+.santa-wishlist-item-title {
+    width: 100%;
+    margin: 0 0 0.65rem;
+    font-size: 1.2rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.santa-wishlist-item-description {
+    width: 100%;
+    margin: 0 0 1.25rem;
+    color: var(--santa-muted);
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+.santa-wishlist-no-description {
+    font-size: 0.88rem;
+    font-style: italic;
+}
+
+.santa-wishlist-product-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+    border-radius: 10px;
+    font-size: 0.84rem;
+    font-weight: 700;
+}
+
+.santa-wishlist-card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 1rem 1.2rem;
+    border-top: 1px solid var(--santa-border);
+    background: #ffffff;
+}
+
+.santa-wishlist-card-actions .btn {
+    border-radius: 10px;
+    font-weight: 650;
+}
+
+.santa-wishlist-delete-button {
+    border: 1px solid #f3c7cc;
+    background: #fff0f1;
+    color: var(--santa-red-dark);
+}
+
+.santa-wishlist-delete-button:hover {
+    border-color: var(--santa-red);
+    background: var(--santa-red);
+    color: #ffffff;
+}
+
+.santa-wishlist-empty {
+    padding: clamp(2rem, 5vw, 3.5rem) 1.5rem;
+    border: 1px dashed #e5d6c9;
+    border-radius: 24px;
+    background: #fffdf9;
+    text-align: center;
+}
+
+.santa-wishlist-empty-icon {
+    display: flex;
+    width: 76px;
+    height: 76px;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.25rem;
+    border-radius: 24px;
+    background: #ffeaeb;
+    color: var(--santa-red-dark);
+    font-size: 2rem;
+}
+
+.santa-wishlist-empty h2 {
+    margin-bottom: 0.65rem;
+    font-size: 1.55rem;
+}
+
+.santa-wishlist-empty p {
+    max-width: 500px;
+    margin: 0 auto 1.5rem;
+    color: var(--santa-muted);
+    line-height: 1.75;
+}
+
+.santa-wishlist-footer-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    margin-top: 2rem;
+    color: var(--santa-muted);
+    font-size: 0.88rem;
+    text-align: center;
+}
+
+.santa-wishlist-footer-note i {
+    color: var(--santa-red);
+}
+
+.santa-wishlist-navigation {
+    margin-bottom: 1.25rem;
+}
+
+.santa-wishlist-navigation .btn {
+    border-radius: 10px;
+    font-weight: 650;
+}
+
+@media (max-width: 767.98px) {
+    .santa-wishlist-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    .santa-wishlist-add-button {
+        width: 100%;
+    }
+
+    .santa-wishlist-list-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .santa-wishlist-card {
+        transition: none;
+    }
+
+    .santa-wishlist-card:hover {
+        transform: none;
+    }
+}
