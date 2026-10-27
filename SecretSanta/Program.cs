@@ -98,7 +98,11 @@ public class Program
         {
             var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             db.Database.Migrate();
-            DbSeeder.Seed(db);
+
+            if (app.Environment.IsDevelopment())
+            {
+                DbSeeder.Seed(db);
+            }
         }
 
         // Configure the HTTP request pipeline.
