@@ -101,6 +101,11 @@ dotnet restore
 dotnet run
 ```
 
+<h3>5. User authorization</h3>
+<p>Currently its not released yet! So in the Database there is one profile created completely fictional for testing the application!</p>
+<h4><strong>Username: michael.scott@gmail.com</strong></h4>
+<h4><strong>Password: 123Michael123!</strong></h4>
+
 <h2>📁 Project Structure</h2>
 <p>The project follows the <strong>ASP.NET Core MVC</strong> architecture</p>
 
@@ -141,7 +146,18 @@ dotnet run
       <li>Each participant can view their assigned recipient and that recipient's wishlist.</li>
 </ol>
 
+<h2>🔐Security Notes</h2>
+<ul>
+  <li>Participant invitation tokens are generated using cryptographically secure random bytes.</li>
+  <li>Invitation tokens are stored as hashes rather than in plaintext.</li>
+  <li>Participant sessions use a separate authentication cookie.</li>
+  <li>Invitation expiration and revocation are checked during participant authentication.</li>
+  <li>Server-side checks restrict access to event data and wishlist items.</li>
+</ul>
 
+<h2>🪳Bugs and Future features</h2>
+<p>Currently there is still to be added new features also probably some bugs along the proccess! If you encounter bugs feel free to give feedback!</p>
+<p>This project is entirely open-sourced and there are no License, so feel free to use it, modify it and have fun with it!</p>
 
 
 
