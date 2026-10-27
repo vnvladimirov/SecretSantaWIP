@@ -156,8 +156,8 @@ dotnet run
 </ul>
 
 <h2>🪳Bugs and Future features</h2>
-<p>Currently there is still to be added new features also probably some bugs along the proccess! If you encounter bugs feel free to give feedback!</p>
-<p>This project is entirely open-sourced and there are no License, so feel free to use it, modify it and have fun with it!</p>
+<p>Currently there is still to be added new features also probably some bugs along the proccess! If you encounter bugs feel free to give feedback or squash them!</p>
+<p>This project is entirely open-sourced and there is no License, so feel free to use it, modify it and have fun with it!</p>
 
 
 
