@@ -101,7 +101,7 @@ dotnet restore
 dotnet run
 ```
 
-<h2>Project Structure</h2>
+<h2>📁 Project Structure</h2>
 <p>The project follows the <strong>ASP.NET Core MVC</strong> architecture</p>
 
 <h3>Project Hierarchy</h3>
@@ -115,6 +115,31 @@ dotnet run
 <h3>Views</h3>
 <img src="screenshots/project-views.png" alt="Home page" width="400">
 
+<h2>🔄 How it Works</h2>
+<p>Here is the <strong>step by step</strong> guide for the Organizer</p>
+
+<ol type="1">
+  <li>The Organizer registers or signs in.</li>
+  <p align="center">
+  <img src="screenshots/register.png" alt="register" width="45%">
+  <img src="screenshots/login.png" alt="login" width="40%">
+    <li>The Organizer creates new event from the button "Create New Event".</li>
+    <p align="center">
+  <img src="screenshots/create-event.png" alt="create-event" width="800">
+      <li>The Organizer fill the form by giving the event Name, Description, Budget, Event Date, Minimum Participants and his Name and Email.</li>
+    <p align="center">
+  <img src="screenshots/create-newevent.png" alt="create-newevent" width="800">
+      <li>The Organizer can add new participants into the event.</li>
+    <p align="center">
+  <img src="screenshots/event-page.png" alt="event-page" width="800">
+  <img src="screenshots/event-add.png" alt="event-add" width="800">
+      <li>The Organizer can edit participants in the event and also assign their partners(couples).</li>
+      <li>The Organizer can delete participants from the event.</li>
+      <li>The Organizer can draw the names by clicking "Draw names" button.</li>
+      <li>After the drawing the Organizer can generate unique invitation link and send it to the participants!</li>
+      <li>Participants use their links to enter the application and manage their wishlists.</li>
+      <li>Each participant can view their assigned recipient and that recipient's wishlist.</li>
+</ol>
 
 
 
