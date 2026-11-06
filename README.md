@@ -9,7 +9,7 @@
 <h2>✨Features✨</h2>
 <h4>📋Event Management</h4>
 <ul>
-  <li>Create, view, edit and delte Events.</li>
+  <li>Create, view, edit and delete Events.</li>
   <li>Configure event details, including the date, budget and minimum number of participants.</li>
   <li>Restrict event management to the Organizer who created the event.</li>
 </ul>
