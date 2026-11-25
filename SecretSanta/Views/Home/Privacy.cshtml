@@ -1,6 +1,34 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="container py-4">
+    <h1>@ViewData["Title"]</h1>
+
+    <p class="text-muted">
+        Secret Santa is a small hobby project. This page explains, in plain words,
+        what the application stores and why.
+    </p>
+
+    <h2 class="h5 mt-4">What we store</h2>
+    <ul>
+        <li><strong>Organizers:</strong> the email address and password (stored as a secure hash) used to sign in.</li>
+        <li><strong>Events:</strong> the event details you enter, such as name, date, budget and organizer contact.</li>
+        <li><strong>Participants:</strong> the name and email address the organizer adds, optional partner links, wishlists and draw assignments.</li>
+        <li><strong>Invitations:</strong> only a hash of each invitation link, never the link itself.</li>
+    </ul>
+
+    <h2 class="h5 mt-4">Cookies</h2>
+    <p>
+        The site uses only the cookies it needs to work: one to keep organizers signed in,
+        one to keep participants signed in for a few hours after opening their invitation link,
+        and one for form protection. There are no advertising or tracking cookies.
+    </p>
+
+    <h2 class="h5 mt-4">Your data</h2>
+    <p>
+        Deleting a participant or an event permanently removes the related wishlists,
+        invitations and draw results. Participants should ask their event organizer
+        to remove their data.
+    </p>
+</div>

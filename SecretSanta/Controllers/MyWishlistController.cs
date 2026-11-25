@@ -129,7 +129,10 @@ public class MyWishlistController(ApplicationDbContext context) : Controller
             return NotFound();
 
         if (!ModelState.IsValid)
-            return View("~/Views/Wishlist/Edit.cshtml", item);
+        {
+            input.ParticipantId = participantId;
+            return View("~/Views/Wishlist/Edit.cshtml", input);
+        }
 
         item.Title = input.Title;
         item.Description = input.Description;

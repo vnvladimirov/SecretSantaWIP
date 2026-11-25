@@ -4,13 +4,31 @@
     ViewData["Title"] = "Join Secret Santa";
 }
 
-<h1>Join Secret Santa</h1>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body p-4 p-md-5">
+                    <span class="santa-eyebrow">
+                        <i class="bi bi-stars" aria-hidden="true"></i>
+                        YOU'RE INVITED
+                    </span>
 
-<h2>Hello, @ViewBag.ParticipantName!</h2>
-<p>You've been invited to participate in <strong>@ViewBag.EventName</strong>.</p>
+                    <h1 class="h3 mt-3">Hello, @ViewBag.ParticipantName!</h1>
 
-<form asp-controller="ParticipantAccess" asp-action="EnterPost" method="post">
-    @Html.AntiForgeryToken()
-    <input type="hidden" name="token" value="@Model" />
-    <button type="submit">Continue</button>
-</form>
+                    <p class="text-muted mb-4">
+                        You've been invited to join <strong>@ViewBag.EventName</strong>.
+                    </p>
+
+                    <form asp-controller="ParticipantAccess" asp-action="EnterPost" method="post">
+                        <input type="hidden" name="token" value="@Model" />
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="bi bi-gift me-2" aria-hidden="true"></i>
+                            Continue
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

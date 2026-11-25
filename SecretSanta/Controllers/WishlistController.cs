@@ -43,6 +43,7 @@ public class WishlistController(ApplicationDbContext context) : Controller
             return NotFound();
 
         ViewBag.Participant = participant;
+        ViewBag.IsOrganizerView = true;
 
         var items = await _context.WishlistItems
             .AsNoTracking()
@@ -118,7 +119,10 @@ public class WishlistController(ApplicationDbContext context) : Controller
             return NotFound();
 
         if (!ModelState.IsValid)
-            return View(item);
+        {
+            input.ParticipantId = item.ParticipantId;
+            return View(input);
+        }
 
         item.Title = input.Title;
         item.Description = input.Description;
@@ -172,6 +176,7 @@ public class WishlistController(ApplicationDbContext context) : Controller
         
         ViewBag.Participant = participant;
         ViewBag.ReadOnly = true;
+        ViewBag.IsOrganizerView = true;
 
         var items = await _context.WishlistItems
         .AsNoTracking()

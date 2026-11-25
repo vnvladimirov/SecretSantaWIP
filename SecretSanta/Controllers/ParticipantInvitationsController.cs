@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using SecretSanta.Data;
 using SecretSanta.Models;
 using SecretSanta.Security;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace SecretSanta.Controllers;
 

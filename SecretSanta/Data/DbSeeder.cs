@@ -1,8 +1,13 @@
 namespace SecretSanta.Data;
+using Microsoft.AspNetCore.Identity;
 using SecretSanta.Models;
 
 public static class DbSeeder
 {
+    // Development-only demo account. The seeder is only called when running in Development.
+    private const string DemoEmail = "michael.scott@gmail.com";
+    private const string DemoPassword = "123Michael123!";
+
     public static void Seed(ApplicationDbContext context)
     {
         if (context.Events.Any())
@@ -10,6 +15,7 @@ public static class DbSeeder
             return;
         }
 
+        var owner = GetOrCreateDemoUser(context);
 
         var party = new Event
         {
@@ -20,6 +26,7 @@ public static class DbSeeder
             MinParticipants = 8,
             OrganizerName = "Alexandra Stoimenova",
             OrganizerEmail = "alexandra@example.com",
+            CreatorId = owner.Id,
             Participants = new List<Participant>
             {
                 new() {Name = "Petar Vitkov",       Email = "petarV@example.com"},
@@ -47,5 +54,34 @@ public static class DbSeeder
 
         context.SaveChanges();
     }
-}
 
+    private static IdentityUser GetOrCreateDemoUser(ApplicationDbContext context)
+    {
+        var normalizedEmail = DemoEmail.ToUpperInvariant();
+
+        var user = context.Users.FirstOrDefault(u => u.NormalizedEmail == normalizedEmail);
+
+        if (user != null)
+        {
+            return user;
+        }
+
+        user = new IdentityUser
+        {
+            UserName = DemoEmail,
+            NormalizedUserName = normalizedEmail,
+            Email = DemoEmail,
+            NormalizedEmail = normalizedEmail,
+            EmailConfirmed = true,
+            LockoutEnabled = true,
+            SecurityStamp = Guid.NewGuid().ToString()
+        };
+
+        user.PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(user, DemoPassword);
+
+        context.Users.Add(user);
+        context.SaveChanges();
+
+        return user;
+    }
+}

@@ -11,11 +11,13 @@ public class WishlistItem
     [Required]
     [MinLength(2)]
     [MaxLength(100)]
+    [Display(Name = "Gift name")]
     public string Title { get; set; } = string.Empty;
     [MaxLength(500)]
     public string? Description { get; set; }
     [Url]
     [MaxLength(2048)]
+    [Display(Name = "Product link")]
     public string? ProductUrl { get; set; }
 
     public int ParticipantId { get; set; }

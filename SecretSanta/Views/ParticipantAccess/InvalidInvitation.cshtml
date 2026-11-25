@@ -2,8 +2,21 @@
     ViewData["Title"] = "Invalid Invitation";
 }
 
-<h1>Invitation unavailable</h1>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body p-4 p-md-5">
+                    <h1 class="h3">Invitation unavailable</h1>
 
-<p>This invitation is invalid, expired, or has been revoked.</p>
+                    <p class="text-muted mb-1">This invitation is invalid, expired, or has been revoked.</p>
+                    <p class="text-muted mb-4">Please ask the event organizer for a new invitation link.</p>
 
-<p>Please ask the event organizer for a new invitation link.</p>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-success">
+                        Go to the home page
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

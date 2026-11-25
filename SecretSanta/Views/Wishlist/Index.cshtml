@@ -8,6 +8,7 @@
     var participant = ViewBag.Participant as Participant;
     var items = Model?.ToList() ?? new List<WishlistItem>();
     var isReadOnly = ViewBag.ReadOnly == true;
+    var isOrganizerView = ViewBag.IsOrganizerView == true;
 }
 
 @section Styles {
@@ -16,28 +17,43 @@
 
 <div class="santa-wishlist-page">
     <div class="santa-wishlist-navigation">
-        <a asp-controller="ParticipantAccess" asp-action="Welcome" class="btn btn-outline-success">
-            <i class="bi bi-arrow-left me-2" aria-hidden="true"></i>
-            Back to Welcome
-        </a>
+        @if (isOrganizerView && participant != null)
+        {
+            <a asp-controller="Events" asp-action="Details" asp-route-id="@participant.EventId"
+               class="btn btn-outline-success">
+                <i class="bi bi-arrow-left me-2" aria-hidden="true"></i>
+                Back to event
+            </a>
+        }
+        else
+        {
+            <a asp-controller="ParticipantAccess" asp-action="Welcome" class="btn btn-outline-success">
+                <i class="bi bi-arrow-left me-2" aria-hidden="true"></i>
+                Back to Welcome
+            </a>
+        }
     </div>
 
     <header class="santa-wishlist-heading">
         <div>
             <span class="santa-eyebrow">
                 <i class="bi bi-stars" aria-hidden="true"></i>
-                @(isReadOnly ? "GIFT INSPIRATION" : "YOUR GIFT IDEAS")
+                @(isReadOnly ? "GIFT INSPIRATION" : isOrganizerView ? "GIFT IDEAS" : "YOUR GIFT IDEAS")
             </span>
 
             <h1 class="santa-wishlist-title mt-2">
                 <i class="bi bi-gift-fill santa-wishlist-title-icon" aria-hidden="true"></i>
-                @(isReadOnly ? $"{participant?.Name ?? "Their"}'s Wishlist" : "My Wishlist")
+                @(isReadOnly || isOrganizerView ? $"{participant?.Name ?? "Their"}'s Wishlist" : "My Wishlist")
             </h1>
 
             <p class="santa-wishlist-intro">
                 @if (isReadOnly)
                 {
                     <text>Take a look at these ideas to find a thoughtful gift.</text>
+                }
+                else if (isOrganizerView)
+                {
+                    <text>Manage this participant's gift ideas.</text>
                 }
                 else
                 {

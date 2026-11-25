@@ -24,7 +24,7 @@
 </div>
 
 <p>
-    <strong>Expires:</strong> @ViewBag.ExpiresAt
+    <strong>Expires:</strong> @(((DateTime)ViewBag.ExpiresAt).ToString("dd MMM yyyy HH:mm")) UTC
 </p>
 
 <div class="alert alert-warning">

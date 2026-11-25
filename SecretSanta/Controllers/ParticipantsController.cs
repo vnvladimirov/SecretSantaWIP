@@ -71,11 +71,6 @@ public class ParticipantsController : Controller
         var duplicate = await _context.Participants
         .AnyAsync(p => p.EventId == model.EventId && p.Email == model.Email);
 
-        if (!await OwnsEventAsync(model.EventId))
-        {
-            return NotFound();
-        }
-
         if (duplicate)
         {
             ModelState.AddModelError(nameof(model.Email), "This email is already registered for this event!");
@@ -218,7 +213,7 @@ public class ParticipantsController : Controller
             return NotFound();
         }
 
-        if (!await OwnsEventAsync(participant.Id))
+        if (!await OwnsParticipantAsync(participant.Id))
         {
             return NotFound();
         }
@@ -236,7 +231,7 @@ public class ParticipantsController : Controller
             return RedirectToAction("Index", "Events");
         }
 
-        if (!await OwnsEventAsync(participant.Id))
+        if (!await OwnsParticipantAsync(participant.Id))
         {
             return NotFound();
         }

@@ -16,6 +16,7 @@ public class Participant
     public string Email { get; set; } = string.Empty;
     public int EventId { get; set; }
     public Event Event { get; set; } = null!;
+    [Display(Name = "Partner")]
     public int? PartnerId { get; set; }
     public Participant? Partner { get; set; }
 

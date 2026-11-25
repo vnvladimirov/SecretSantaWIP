@@ -10,6 +10,18 @@
 
     var canDraw = Model.Participants.Count >= Model.MinParticipants;
 
+    // Participants who have no recipient in the latest round (added or removed since the draw).
+    var drawnGiverIds = Model.Assignments
+        .Where(a => a.Round == latestRound)
+        .Select(a => a.GiverId)
+        .ToHashSet();
+
+    var participantsMissingFromDraw = hasAssignments
+        ? Model.Participants.Count(p => !drawnGiverIds.Contains(p.Id))
+        : 0;
+
+    var drawIsOutdated = participantsMissingFromDraw > 0;
+
     var participantProgress = Model.MinParticipants > 0
         ? Math.Min(100, (int)Math.Round(
             (double)Model.Participants.Count / Model.MinParticipants * 100))
@@ -23,12 +35,22 @@
     <link rel="stylesheet" href="~/css/pages/event-details.css" asp-append-version="true">
 }
 
-@if (hasAssignments)
+@if (hasAssignments && !drawIsOutdated)
 {
     <div class="alert alert-info santa-status-message">
         <i class="bi bi-check-circle-fill me-2" aria-hidden="true"></i>
         <strong>Draw complete!</strong>
         Round @latestRound has been completed. Participants can open their reveal pages.
+    </div>
+}
+
+@if (drawIsOutdated)
+{
+    <div class="alert alert-warning santa-status-message">
+        <i class="bi bi-exclamation-triangle-fill me-2" aria-hidden="true"></i>
+        <strong>The draw is out of date.</strong>
+        @participantsMissingFromDraw participant@(participantsMissingFromDraw == 1 ? " has" : "s have")
+        no recipient in round @latestRound. Draw again so everyone gets a recipient.
     </div>
 }
 
@@ -206,18 +228,20 @@
             <div class="santa-draw-area">
                 @if (canDraw)
                 {
-                    <a asp-action="Draw" asp-route-id="@Model.Id" class="btn btn-warning santa-draw-button">
-                        <i class="bi bi-shuffle me-2" aria-hidden="true"></i>
-                        Draw names
-                    </a>
+                    <form asp-action="Draw" asp-route-id="@Model.Id" method="post" class="santa-inline-form"
+                          onsubmit="return confirm('@(hasAssignments ? "Start a new round? Participants will see their new recipient, and pairs from earlier rounds will not be repeated." : "Draw the names now?")');">
+                        <button type="submit" class="btn btn-warning santa-draw-button">
+                            <i class="bi bi-shuffle me-2" aria-hidden="true"></i>
+                            @(hasAssignments ? "Draw again" : "Draw names")
+                        </button>
+                    </form>
                 }
                 else
                 {
-                    <a asp-action="Draw" asp-route-id="@Model.Id" class="btn btn-warning santa-draw-button disabled"
-                       aria-disabled="true" tabindex="-1">
+                    <button type="button" class="btn btn-warning santa-draw-button" disabled>
                         <i class="bi bi-shuffle me-2" aria-hidden="true"></i>
                         Draw names
-                    </a>
+                    </button>
                 }
 
                 @if (!canDraw)

@@ -1,13 +1,10 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SecretSanta.Data;
 using SecretSanta.Models;
 using SecretSanta.Services;
-using SQLitePCL;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SecretSanta.Controllers;
 
@@ -38,6 +35,11 @@ public class EventsController(ApplicationDbContext context, IDrawService drawSer
     public async Task<IActionResult> Create(
         [Bind("Name,Description,EventDate,Budget,MinParticipants,OrganizerName,OrganizerEmail")] Event model)
     {
+        if (model.EventDate.Date < DateTime.UtcNow.Date)
+        {
+            ModelState.AddModelError(nameof(model.EventDate), "The event date can't be in the past.");
+        }
+
         if (!ModelState.IsValid)
         {
             return View(model);
@@ -185,6 +187,8 @@ public class EventsController(ApplicationDbContext context, IDrawService drawSer
         return RedirectToAction(nameof(Index));
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Draw(int id)
     {
         var eventExists = await _context.Events

@@ -187,7 +187,7 @@ public class ParticipantAccessController : Controller
         await HttpContext.SignOutAsync(
             ParticipantCookieDefaults.AuthenticationScheme);
 
-        return RedirectToAction(nameof(Enter));
+        return RedirectToAction("Index", "Home");
     }
 
     [AllowAnonymous]

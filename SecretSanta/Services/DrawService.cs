@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SecretSanta.Data;
 using SecretSanta.Models;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SecretSanta.Services;
 
@@ -57,9 +55,17 @@ public class DrawService : IDrawService
             });
         }
 
-        await _context.SaveChangesAsync();
-        return new DrawResult(true);
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateException)
+        {
+            // Most likely two draws for the same round were submitted at the same time.
+            return new DrawResult(false, "The draw could not be saved. Please try again.");
+        }
 
+        return new DrawResult(true);
     }
 
 

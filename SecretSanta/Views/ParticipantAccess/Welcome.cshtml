@@ -74,7 +74,7 @@
                     ideas can help your Secret Santa find the perfect gift.
                 </p>
 
-                <a asp-controller="MyWishlist" asp-action="Index" asp-route-participantId="@participantId"
+                <a asp-controller="MyWishlist" asp-action="Index"
                    class="btn btn-success santa-participant-action-button">
                     <i class="bi bi-pencil-square me-2" aria-hidden="true"></i>
                     Manage my wishlist
@@ -139,6 +139,15 @@
     <div class="santa-participant-footer-note">
         <i class="bi bi-heart-fill" aria-hidden="true"></i>
         The best gifts come with a little thought and a lot of heart.
+    </div>
+
+    <div class="text-center mt-4">
+        <form asp-controller="ParticipantAccess" asp-action="Logout" method="post">
+            <button type="submit" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-box-arrow-right me-1" aria-hidden="true"></i>
+                Sign out
+            </button>
+        </form>
     </div>
 
 </div>
