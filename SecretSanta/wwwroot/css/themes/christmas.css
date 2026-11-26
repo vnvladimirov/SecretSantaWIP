@@ -1,0 +1,87 @@
+:root {
+    color-scheme: light;
+
+    /* Primary palette */
+    --santa-red: #e94b5b;
+    --santa-red-dark: #c93649;
+    --santa-green: #218c68;
+    --santa-green-dark: #176b50;
+    --santa-yellow: #ffd166;
+    --santa-yellow-light: #ffe09a;
+    --santa-cream: #fff9f0;
+
+    /* Backgrounds and surfaces */
+    --santa-bg: var(--santa-cream);
+    --santa-surface: #ffffff;
+    --santa-surface-alt: #fffdf9;
+    --santa-hero-end: #fff0e7;
+    --santa-art-caption-bg: rgba(255, 255, 255, 0.82);
+    --santa-art-caption-border: rgba(255, 255, 255, 0.7);
+    --santa-form-header-end: #fff5ec;
+
+    /* Typography */
+    --santa-text: #343746;
+    --santa-muted: #777b89;
+    --santa-text-subtle: #a0a1a9;
+    --santa-text-inverse: #ffffff;
+    --santa-text-on-accent: #343746;
+
+    /* Borders */
+    --santa-border: #f0e4d8;
+    --santa-input-border: #e5d9cf;
+    --santa-separator: #c7b8ab;
+    --santa-border-subtle: #f0e8e0;
+    --santa-border-hover: #d8e8de;
+    --santa-green-border: #d8eadf;
+    --santa-invite-border: #cfe5d8;
+    --santa-yellow-border: #f0c75e;
+
+    /* Danger states */
+    --santa-danger-border: #f3c7cc;
+    --santa-danger-soft: #fff0f1;
+
+    /* Semantic danger colors */
+    --santa-danger: #c93649;
+    --santa-danger-hover: #a62939;
+    --santa-danger-text: #a62939;
+    --santa-danger-on-fill: #ffffff;
+    --santa-danger-soft: #fff0f1;
+    --santa-danger-border: #f3c7cc;
+    --santa-danger-rgb: 201, 54, 73;
+
+    /* Empty states */
+    --santa-border-dashed: #e5d6c9;
+
+    /* Progress indicators */
+    --santa-progress-track: #f0e8e0;
+
+    /* Warning and pending states */
+    --santa-warning-border: #f0e0b1;
+    --santa-warning-soft: #fff8e7;
+    --santa-warning-text: #805d15;
+
+    /* Soft accent backgrounds */
+    --santa-red-soft: #ffeaeb;
+    --santa-green-soft: #e3f2e8;
+    --santa-yellow-soft: #fff3cf;
+    --santa-cta-bg: #fce6e5;
+    --santa-invite-soft: #eaf6ee;
+
+    /* Additional accent colors */
+    --santa-yellow-dark: #946200;
+    --santa-gold: #e9ae35;
+    --santa-green-light: #52b788;
+
+    /* Navbar */
+    --santa-navbar-start: var(--santa-green-dark);
+    --santa-navbar-end: var(--santa-green);
+    --santa-navbar-text: #ffffff;
+    --santa-navbar-text-rgb: 255, 255, 255;
+
+    /* RGB channels for transparent colors */
+    --santa-green-rgb: 33, 140, 104;
+    --santa-green-dark-rgb: 23, 107, 80;
+    --santa-yellow-rgb: 255, 209, 102;
+    --santa-shadow-rgb: 65, 47, 40;
+    --santa-art-shadow-rgb: 70, 70, 60;
+}

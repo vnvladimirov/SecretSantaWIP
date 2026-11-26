@@ -35,7 +35,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 24px;
-    background: #ffeaeb;
+    background: var(--santa-red-soft);;
     color: var(--santa-red-dark);
     font-size: 2rem;
 }
@@ -44,8 +44,9 @@
     padding: clamp(1.2rem, 3vw, 2rem);
     border: 1px solid var(--santa-border);
     border-radius: 22px;
-    background: #fffdf9;
-    box-shadow: 0 8px 24px rgba(65, 47, 40, 0.05);
+    background: var(--santa-surface-alt);
+    box-shadow: 0 8px 24px
+        rgba(var(--santa-shadow-rgb), 0.05);
 }
 
 .santa-section-heading {
@@ -63,7 +64,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 14px;
-    background: #e3f2e8;
+    background: var(--santa-green-soft);
     color: var(--santa-green-dark);
     font-size: 1.3rem;
 }
@@ -88,9 +89,9 @@
 .santa-event-info-item {
     min-width: 0;
     padding: 1rem;
-    border: 1px solid #f0e8e0;
+    border: 1px solid var(--santa-border-subtle);
     border-radius: 14px;
-    background: #ffffff;
+    background: var(--santa-surface);
 }
 
 .santa-event-info-item dt {
@@ -143,7 +144,7 @@
     padding: 1rem;
     border: 1px solid var(--santa-border);
     border-radius: 16px;
-    background: #fffdf9;
+    background: var(--santa-surface-alt);
 }
 
 .santa-participant-progress-label {
@@ -165,12 +166,16 @@
     height: 7px;
     overflow: hidden;
     border-radius: 20px;
-    background-color: #f0e8e0;
+    background-color: var(--santa-progress-track);
 }
 
 .santa-participant-progress-bar {
     border-radius: inherit;
-    background: linear-gradient(90deg, #218c68, #52b788);
+    background: linear-gradient(
+        90deg,
+        var(--santa-green),
+        var(--santa-green-light)
+    );
     transition: width 0.25s ease;
 }
 
@@ -195,7 +200,7 @@
     padding: 1rem 1.15rem;
     border: 1px solid var(--santa-border);
     border-radius: 16px;
-    background: #fffdf9;
+    background: var(--santa-surface-alt);
 }
 
 .santa-draw-area {
@@ -206,16 +211,16 @@
 }
 
 .santa-draw-button {
-    border: 1px solid #f0c75e;
+    border: 1px solid var(--santa-yellow-border);
     background: var(--santa-yellow);
-    color: #343746;
+    color: var(--santa-text-on-accent);
     font-weight: 750;
 }
 
 .santa-draw-button:hover {
-    border-color: #e9ae35;
-    background: #ffe09a;
-    color: #343746;
+    border-color: var(--santa-gold);
+    background: var(--santa-yellow-light);
+    color: var(--santa-text-on-accent);
 }
 
 .santa-draw-help {
@@ -241,14 +246,17 @@
     padding: 1.1rem 1.2rem;
     border: 1px solid var(--santa-border);
     border-radius: 18px;
-    background: #ffffff;
-    box-shadow: 0 4px 16px rgba(65, 47, 40, 0.035);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background: var(--santa-surface);
+    box-shadow: 0 4px 16px
+        rgba(var(--santa-shadow-rgb), 0.035);
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
 }
 
 .santa-participant-card:hover {
-    border-color: #d8e8de;
-    box-shadow: 0 8px 22px rgba(65, 47, 40, 0.07);
+    border-color: var(--santa-border-hover);
+    box-shadow: 0 8px 22px
+        rgba(var(--santa-shadow-rgb), 0.07);
 }
 
 .santa-participant-info {
@@ -265,9 +273,9 @@
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
-    border: 1px solid #d8eadf;
+    border: 1px solid var(--santa-green-border);
     border-radius: 15px;
-    background: #e3f2e8;
+    background: var(--santa-green-soft);
     color: var(--santa-green-dark);
     font-size: 1.35rem;
 }
@@ -320,16 +328,18 @@
     font-weight: 650;
 }
 
-.santa-participant-delete {
-    border: 1px solid #f3c7cc;
-    background: #fff0f1;
+.santa-participant-delete,
+.santa-revoke-button {
+    border: 1px solid var(--santa-danger-border);
+    background: var(--santa-danger-soft);
     color: var(--santa-red-dark);
 }
 
-.santa-participant-delete:hover {
+.santa-participant-delete:hover,
+.santa-revoke-button:hover {
     border-color: var(--santa-red);
     background: var(--santa-red);
-    color: #ffffff;
+    color: var(--santa-text-inverse);
 }
 
 .santa-inline-form {
@@ -339,19 +349,19 @@
 
 .santa-invitation-actions {
     padding-top: 0.55rem;
-    border-top: 1px solid #f0e8e0;
+    border-top: 1px solid var(--santa-border-subtle);
 }
 
 .santa-invite-button {
-    border: 1px solid #cfe5d8;
-    background: #eaf6ee;
+    border: 1px solid var(--santa-invite-border);
+    background: var(--santa-invite-soft);
     color: var(--santa-green-dark);
 }
 
 .santa-invite-button:hover {
     border-color: var(--santa-green);
     background: var(--santa-green);
-    color: #ffffff;
+    color: var(--santa-text-inverse);
 }
 
 .santa-revoke-button {
@@ -368,9 +378,9 @@
 
 .santa-participants-empty {
     padding: 2.5rem 1.25rem;
-    border: 1px dashed #e5d6c9;
+    border: 1px dashed var(--santa-border-dashed);
     border-radius: 22px;
-    background: #fffdf9;
+    background: var(--santa-surface-alt);
     text-align: center;
 }
 
@@ -382,7 +392,7 @@
     justify-content: center;
     margin: 0 auto 1rem;
     border-radius: 20px;
-    background: #e3f2e8;
+    background: var(--santa-green-soft);
     color: var(--santa-green-dark);
     font-size: 1.7rem;
 }

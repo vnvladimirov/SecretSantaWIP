@@ -1,56 +1,139 @@
-﻿ <!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="christmas" data-mode="light">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>@ViewData["Title"] - SecretSanta</title>
+
     <script type="importmap"></script>
+        <script>
+            (() => {
+                try { 
+                    const theme = localStorage.getItem("santa-theme");
+                    const mode = localStorage.getItem("santa-mode");
+                    const validThemes = ["christmas", "evergreen", "winter", "candy-cane"];
+                    const validModes = ["light", "dark"];
+                    document.documentElement.dataset.theme = validThemes.includes(theme) ? theme : "christmas";
+                    document.documentElement.dataset.mode = validModes.includes(mode) ? mode : "light";
+                } catch {
+                }
+            })();
+        </script>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <link rel="stylesheet" href="~/css/themes/christmas.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="~/css/themes/evergreen.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="~/css/themes/winter.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="~/css/themes/candy-cane.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="~/css/themes/dark-mode.css" asp-append-version="true" />
+
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
     <link rel="stylesheet" href="~/SecretSanta.styles.css" asp-append-version="true" />
+
     @await RenderSectionAsync("Styles", required: false)
 </head>
+
 <body>
+
     <header>
-    <nav class="navbar navbar-expand-lg navbar-dark santa-navbar mb-4">
-        <div class="container">
-            <a class="navbar-brand santa-brand"
-               asp-area=""
-               asp-controller="Home"
-               asp-action="Index">
-                <span class="santa-brand-icon">🎁</span>
-                <span>Secret<span class="santa-brand-highlight">Santa</span></span>
-            </a>
+        <nav class="navbar navbar-expand-lg navbar-dark santa-navbar mb-4">
+            <div class="container">
+                <a class="navbar-brand santa-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span class="santa-brand-icon">🎁</span>
+                    <span>
+                        Secret<span class="santa-brand-highlight">Santa</span>
+                    </span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                        aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Events" asp-action="Index">
+                                Events
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="santa-appearance">
+                        <div class="dropdown santa-theme-dropdown">
+                            <button class="btn santa-appearance-btn dropdown-toggle" type="button" id="themeDropdown"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-palette" aria-hidden="true"></i>
+                                <span>Theme</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end santa-theme-menu"
+                                aria-labelledby="themeDropdown">
+                                <li>
+                                    <h6 class="dropdown-header">
+                                        Choose your theme
+                                    </h6>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item santa-theme-option"
+                                            data-theme-value="christmas" aria-pressed="true">
 
-            <button class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#mainNavbar"
-                    aria-controls="mainNavbar"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+                                        <span class="santa-theme-swatch swatch-christmas"></span>
+                                        <span>Christmas Classic</span>
+                                        <i class="bi bi-check-lg santa-theme-check" aria-hidden="true"></i>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item santa-theme-option"
+                                            data-theme-value="evergreen" aria-pressed="false">
 
-            <div class="collapse navbar-collapse" id="mainNavbar">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           asp-controller="Events"
-                           asp-action="Index">
-                            Events
-                        </a>
-                    </li>
-                </ul>
+                                        <span class="santa-theme-swatch swatch-evergreen"></span>
+                                        <span>Evergreen</span>
+                                        <i class="bi bi-check-lg santa-theme-check" aria-hidden="true"></i>
 
-                <div class="santa-account">
-                    <partial name="_LoginPartial" />
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item santa-theme-option"
+                                            data-theme-value="winter" aria-pressed="false">
+
+                                        <span class="santa-theme-swatch swatch-winter"></span>
+                                        <span>Winter Wonderland</span>
+                                        <i class="bi bi-check-lg santa-theme-check" aria-hidden="true"></i>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item santa-theme-option"
+                                            data-theme-value="candy-cane" aria-pressed="false">
+
+                                        <span class="santa-theme-swatch swatch-candy-cane"></span>
+                                        <span>Candy Cane</span>
+                                        <i class="bi bi-check-lg santa-theme-check" aria-hidden="true"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                        <button type="button" class="btn santa-appearance-btn santa-mode-toggle" id="modeToggle"
+                                aria-label="Dark mode" aria-pressed="false" title="Switch to dark mode">
+
+                            <i class="bi bi-moon-stars-fill" id="modeIcon" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="santa-account">
+                        <partial name="_LoginPartial" />
+                    </div>
                 </div>
             </div>
-        </div>
-    </nav>
-</header>
+        </nav>
+    </header>
+
+
     <div class="santa-page">
         <div class="container santa-main">
             <main role="main" class="pb-3">
@@ -63,14 +146,21 @@
                 <span>&copy; 2026 - SecretSanta</span>
                 <span class="santa-footer-separator">·</span>
                 <a asp-area="" asp-controller="Home" asp-action="Privacy">
+
                     Privacy
+
                 </a>
             </div>
         </footer>
     </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>

@@ -26,8 +26,9 @@
     overflow: hidden;
     border: 1px solid var(--santa-border);
     border-radius: 22px;
-    background: #fffdf9;
-    box-shadow: 0 8px 26px rgba(65, 47, 40, 0.06);
+    background: var(--santa-surface-alt);
+    box-shadow: 0 8px 26px
+        rgba(var(--santa-shadow-rgb), 0.06);
 }
 
 .santa-form-card-header {
@@ -36,7 +37,11 @@
     gap: 1rem;
     padding: 1.5rem;
     border-bottom: 1px solid var(--santa-border);
-    background: linear-gradient(135deg, #fffdf9, #fff5ec);
+    background: linear-gradient(
+        135deg,
+        var(--santa-surface-alt),
+        var(--santa-form-header-end)
+    );
 }
 
 .santa-form-header-icon {
@@ -47,7 +52,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 16px;
-    background: #ffeaeb;
+    background: var(--santa-red-soft);
     color: var(--santa-red-dark);
     font-size: 1.5rem;
 }
@@ -118,7 +123,6 @@
 
 .santa-form-field .form-control {
     min-height: 46px;
-    background-color: #ffffff;
 }
 
 .santa-form-field textarea.form-control {
@@ -128,9 +132,9 @@
 
 .santa-form-field .form-control:focus {
     border-color: var(--santa-green);
-    box-shadow: 0 0 0 0.2rem rgba(33, 140, 104, 0.13);
+    box-shadow: 0 0 0 0.2rem
+        rgba(var(--santa-green-rgb), 0.13);
 }
-
 .santa-field-validation {
     display: block;
     margin-top: 0.4rem;
@@ -161,7 +165,7 @@
     gap: 0.75rem;
     padding: 1.25rem clamp(1.25rem, 4vw, 2rem);
     border-top: 1px solid var(--santa-border);
-    background: #ffffff;
+    background: var(--santa-surface);
 }
 
 .santa-form-card-footer .btn {
@@ -170,11 +174,12 @@
 }
 
 .santa-form-submit-button {
-    box-shadow: 0 4px 12px rgba(33, 140, 104, 0.14);
+    box-shadow: 0 4px 12px
+        rgba(var(--santa-green-rgb), 0.14);
 }
 
 .santa-form-back-button {
-    background: #ffffff;
+    background: var(--santa-surface);
 }
 
 @media (max-width: 575.98px) {

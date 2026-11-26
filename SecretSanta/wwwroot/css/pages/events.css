@@ -28,7 +28,8 @@
 .santa-create-event {
     flex-shrink: 0;
     white-space: nowrap;
-    box-shadow: 0 5px 14px rgba(33, 140, 104, 0.17);
+    box-shadow: 0 5px 14px
+        rgba(var(--santa-green-rgb), 0.17);
 }
 
 .santa-events-count {
@@ -50,13 +51,14 @@
     overflow: hidden;
     border: 1px solid var(--santa-border);
     border-radius: 20px;
-    background: #fffdf9;
+    background: var(--santa-surface);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .santa-event-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 28px rgba(65, 47, 40, 0.10);
+    box-shadow: 0 12px 28px
+        rgba(var(--santa-shadow-rgb), 0.10);
 }
 
 .santa-event-card-top {
@@ -75,7 +77,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 15px;
-    background: #ffeaeb;
+    background: var(--santa-red-soft);
     color: var(--santa-red-dark);
     font-size: 1.4rem;
 }
@@ -85,7 +87,7 @@
     align-items: center;
     padding: 0.45rem 0.65rem;
     border-radius: 10px;
-    background: #e3f2e8;
+    background: var(--santa-green-soft);
     color: var(--santa-green-dark);
     font-size: 0.8rem;
     font-weight: 750;
@@ -146,7 +148,7 @@
     margin-top: auto;
     padding: 1rem 1.25rem;
     border-top: 1px solid var(--santa-border);
-    background: #ffffff;
+    background: var(--santa-surface);
 }
 
 .santa-event-actions .btn {
@@ -162,22 +164,22 @@
     align-items: center;
     justify-content: center;
     margin-left: auto;
-    border: 1px solid #f3c7cc;
-    background: #fff0f1;
+    border: 1px solid var(--santa-danger-border);
+    background: var(--santa-danger-soft);
     color: var(--santa-red-dark);
 }
 
 .santa-event-delete:hover {
     border-color: var(--santa-red);
     background: var(--santa-red);
-    color: #ffffff;
+    color: var(--santa-text-inverse);
 }
 
 .santa-events-empty {
     padding: clamp(2rem, 5vw, 4rem) 1.5rem;
-    border: 1px dashed #e5d6c9;
+    border: 1px dashed var(--santa-border-dashed);
     border-radius: 24px;
-    background: #fffdf9;
+    background: var(--santa-surface-alt);
     text-align: center;
 }
 
@@ -189,7 +191,7 @@
     justify-content: center;
     margin: 0 auto 1.25rem;
     border-radius: 24px;
-    background: #ffeaeb;
+    background: var(--santa-red-soft);
     color: var(--santa-red-dark);
     font-size: 2rem;
 }

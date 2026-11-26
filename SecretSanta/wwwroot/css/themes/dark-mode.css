@@ -1,0 +1,355 @@
+:root[data-mode="dark"] {
+
+    color-scheme: dark;
+
+    /* Backgrounds and surfaces */
+    --santa-bg: #151b18;
+    --santa-surface: #222c26;
+    --santa-surface-alt: #1c251f;
+    --santa-hero-end: #29372e;
+    --santa-form-header-end: #29372e;
+
+    /* Typography */
+    --santa-text: #f1f5f2;
+    --santa-muted: #b2c0b7;
+    --santa-text-subtle: #96a59b;
+    --santa-text-inverse: #ffffff;
+
+    /* Text on bright primary buttons */
+    --santa-text-on-primary: #151b18;
+
+    /* Borders */
+    --santa-border: #36463c;
+    --santa-input-border: #506358;
+    --santa-separator: #506358;
+    --santa-border-subtle: #303e35;
+    --santa-border-hover: #527461;
+    --santa-green-border: #3b5948;
+    --santa-invite-border: #3b5948;
+    --santa-yellow-border: #8c7442;
+    --santa-border-dashed: #506358;
+
+    /* Danger states */
+    --santa-danger-border: #75414a;
+    --santa-danger-soft: #3c252b;
+
+    /* Semantic danger colors */
+    --santa-danger: #f08b95;
+    --santa-danger-hover: #ffadb5;
+    --santa-danger-text: #ffadb5;
+    --santa-danger-on-fill: #30151a;
+    --santa-danger-soft: #3c252b;
+    --santa-danger-border: #75414a;
+    --santa-danger-rgb: 240, 139, 149;
+
+    /* Warning states */
+    --santa-warning-border: #66532b;
+    --santa-warning-soft: #332b1b;
+    --santa-warning-text: #f5d78a;
+
+    /* Progress indicators */
+    --santa-progress-track: #35443b;
+
+    /* Artwork */
+    --santa-art-caption-bg: rgba(34, 44, 38, 0.85);
+    --santa-art-caption-border: rgba(255, 255, 255, 0.12);
+
+    /* Shadows */
+    --santa-shadow-rgb: 0, 0, 0;
+    --santa-art-shadow-rgb: 0, 0, 0;
+}
+
+:root[data-theme="christmas"][data-mode="dark"] {
+
+    /* Primary palette */
+    --santa-green: #75c99b;
+    --santa-green-dark: #9cdeba;
+    --santa-green-light: #a6e3c1;
+
+    --santa-red: #f08b95;
+    --santa-red-dark: #ffadb5;
+
+    --santa-yellow: #ffd166;
+    --santa-yellow-light: #ffe09a;
+    --santa-yellow-dark: #ffd166;
+    --santa-gold: #e9ae35;
+
+    --santa-text-on-accent: #343746;
+
+    /* Soft accent backgrounds */
+    --santa-red-soft: #40292e;
+    --santa-green-soft: #263f32;
+    --santa-yellow-soft: #40351f;
+    --santa-cta-bg: #35282b;
+    --santa-invite-soft: #263f32;
+
+    /* Navbar */
+    --santa-navbar-start: #176b50;
+    --santa-navbar-end: #218c68;
+
+    /* RGB channels */
+    --santa-green-rgb: 117, 201, 155;
+    --santa-green-dark-rgb: 156, 222, 186;
+    --santa-yellow-rgb: 255, 209, 102;
+}
+
+:root[data-theme="evergreen"][data-mode="dark"] {
+
+    /* Backgrounds and surfaces */
+    --santa-bg: #131c16;
+    --santa-surface: #202e24;
+    --santa-surface-alt: #19251d;
+    --santa-hero-end: #2c392a;
+    --santa-form-header-end: #29372a;
+
+    /* Primary palette */
+    --santa-green: #91b9a0;
+    --santa-green-dark: #b0d1bb;
+    --santa-green-light: #b7dac2;
+
+    --santa-red: #d48b90;
+    --santa-red-dark: #e9aeb2;
+
+    --santa-yellow: #c6a15b;
+    --santa-yellow-light: #e4c58a;
+    --santa-yellow-dark: #e4c58a;
+    --santa-gold: #c6a15b;
+
+    /* Typography */
+    --santa-text: #edf3e9;
+    --santa-muted: #b1bfb0;
+    --santa-text-subtle: #94a593;
+    --santa-text-on-accent: #293b32;
+    --santa-text-on-primary: #131c16;
+
+    /* Borders */
+    --santa-border: #35483a;
+    --santa-input-border: #506455;
+    --santa-separator: #506455;
+    --santa-border-subtle: #304135;
+    --santa-border-hover: #597961;
+    --santa-green-border: #405e48;
+    --santa-invite-border: #405e48;
+    --santa-yellow-border: #826b40;
+    --santa-border-dashed: #506455;
+
+    /* Soft accent backgrounds */
+    --santa-red-soft: #3d292d;
+    --santa-green-soft: #2b4232;
+    --santa-yellow-soft: #3d3524;
+    --santa-cta-bg: #2d3b2b;
+    --santa-invite-soft: #2b4232;
+
+    /* Progress indicators */
+    --santa-progress-track: #35483a;
+
+    /* Artwork */
+    --santa-art-caption-bg: rgba(32, 46, 36, 0.85);
+
+    /* Navbar */
+    --santa-navbar-start: #214e34;
+    --santa-navbar-end: #52796f;
+
+    /* RGB channels */
+    --santa-green-rgb: 145, 185, 160;
+    --santa-green-dark-rgb: 176, 209, 187;
+    --santa-yellow-rgb: 198, 161, 91;
+}
+
+:root[data-theme="winter"][data-mode="dark"] {
+
+    /* Backgrounds and surfaces */
+    --santa-bg: #111b2b;
+    --santa-surface: #1e2d42;
+    --santa-surface-alt: #182538;
+    --santa-hero-end: #263b56;
+    --santa-form-header-end: #24364e;
+
+    /* Primary palette */
+    --santa-green: #82b5ef;
+    --santa-green-dark: #acd2ff;
+    --santa-green-light: #b7d9ff;
+
+    --santa-red: #b1b5ed;
+    --santa-red-dark: #cbd0ff;
+
+    --santa-yellow: #c7dff5;
+    --santa-yellow-light: #e2efff;
+    --santa-yellow-dark: #b8d8fa;
+    --santa-gold: #91b9e5;
+
+    /* Typography */
+    --santa-text: #eaf2ff;
+    --santa-muted: #aabbd2;
+    --santa-text-subtle: #91a5bf;
+    --santa-text-on-accent: #263b53;
+    --santa-text-on-primary: #111b2b;
+
+    /* Borders */
+    --santa-border: #344963;
+    --santa-input-border: #4b6380;
+    --santa-separator: #4b6380;
+    --santa-border-subtle: #2e4058;
+    --santa-border-hover: #567ba5;
+    --santa-green-border: #3c587a;
+    --santa-invite-border: #3c587a;
+    --santa-yellow-border: #6587ac;
+    --santa-border-dashed: #4b6380;
+
+    /* Soft accent backgrounds */
+    --santa-red-soft: #343650;
+    --santa-green-soft: #263f5c;
+    --santa-yellow-soft: #293d54;
+    --santa-cta-bg: #243b56;
+    --santa-invite-soft: #263f5c;
+
+    /* Progress indicators */
+    --santa-progress-track: #30445e;
+
+    /* Artwork */
+    --santa-art-caption-bg: rgba(30, 45, 66, 0.85);
+
+    /* Navbar */
+    --santa-navbar-start: #315b8a;
+    --santa-navbar-end: #477cba;
+
+    /* RGB channels */
+    --santa-green-rgb: 130, 181, 239;
+    --santa-green-dark-rgb: 172, 210, 255;
+    --santa-yellow-rgb: 199, 223, 245;
+}
+
+:root[data-theme="candy-cane"][data-mode="dark"] {
+
+    /* Backgrounds and surfaces */
+    --santa-bg: #241518;
+    --santa-surface: #382329;
+    --santa-surface-alt: #301e23;
+    --santa-hero-end: #482a32;
+    --santa-form-header-end: #42272e;
+
+    /* Primary palette */
+    --santa-green: #ff7b89;
+    --santa-green-dark: #ffa5af;
+    --santa-green-light: #ffb7bf;
+
+    --santa-red: #e5a0b8;
+    --santa-red-dark: #f5bfd1;
+
+    --santa-yellow: #ffdbcc;
+    --santa-yellow-light: #fff0e8;
+    --santa-yellow-dark: #ffc3aa;
+    --santa-gold: #e9a58c;
+
+    /* Typography */
+    --santa-text: #fff0f2;
+    --santa-muted: #d1adb7;
+    --santa-text-subtle: #b9919d;
+    --santa-text-on-accent: #432d35;
+    --santa-text-on-primary: #241518;
+
+    /* Borders */
+    --santa-border: #573740;
+    --santa-input-border: #79515d;
+    --santa-separator: #79515d;
+    --santa-border-subtle: #4b3038;
+    --santa-border-hover: #9b5d6c;
+    --santa-green-border: #74414d;
+    --santa-invite-border: #74414d;
+    --santa-yellow-border: #a57968;
+    --santa-border-dashed: #79515d;
+
+    /* Soft accent backgrounds */
+    --santa-red-soft: #4b2c3a;
+    --santa-green-soft: #512b34;
+    --santa-yellow-soft: #4a342c;
+    --santa-cta-bg: #482730;
+    --santa-invite-soft: #512b34;
+
+    /* Progress indicators */
+    --santa-progress-track: #50323b;
+
+    /* Artwork */
+    --santa-art-caption-bg: rgba(56, 35, 41, 0.85);
+
+    /* Navbar */
+    --santa-navbar-start: #a61e32;
+    --santa-navbar-end: #d62839;
+
+    /* RGB channels */
+    --santa-green-rgb: 255, 123, 137;
+    --santa-green-dark-rgb: 255, 165, 175;
+    --santa-yellow-rgb: 255, 219, 204;
+}
+
+
+/* DARK MODE — COMPONENT ADJUSTMENTS */
+
+/* Primary buttons */
+:root[data-mode="dark"] .btn-success {
+    color: var(--santa-text-on-primary);
+
+    --bs-btn-color: var(--santa-text-on-primary);
+    --bs-btn-hover-color: var(--santa-text-on-primary);
+    --bs-btn-active-color: var(--santa-text-on-primary);
+}
+
+:root[data-mode="dark"] .btn-success:hover,
+:root[data-mode="dark"] .btn-success:active,
+:root[data-mode="dark"] .btn-success:focus-visible {
+    color: var(--santa-text-on-primary);
+}
+
+/* Outline buttons */
+:root[data-mode="dark"] .btn-outline-secondary {
+    --bs-btn-color: var(--santa-muted);
+    --bs-btn-border-color: var(--santa-input-border);
+    --bs-btn-hover-color: var(--santa-text);
+    --bs-btn-hover-bg: var(--santa-surface);
+    --bs-btn-hover-border-color: var(--santa-border-hover);
+}
+
+/* Bootstrap muted text */
+:root[data-mode="dark"] .text-muted {
+    color: var(--santa-muted) !important;
+}
+
+/* Bootstrap white backgrounds */
+:root[data-mode="dark"] .bg-white {
+    background-color: var(--santa-surface) !important;
+}
+
+/* Dropdown menus */
+:root[data-mode="dark"] .dropdown-menu {
+    --bs-dropdown-bg: var(--santa-surface);
+    --bs-dropdown-color: var(--santa-text);
+    --bs-dropdown-border-color: var(--santa-border);
+    --bs-dropdown-link-color: var(--santa-text);
+    --bs-dropdown-link-hover-color: var(--santa-text);
+    --bs-dropdown-link-hover-bg: var(--santa-green-soft);
+    --bs-dropdown-link-active-color: var(--santa-text-on-primary);
+    --bs-dropdown-link-active-bg: var(--santa-green);
+    --bs-dropdown-divider-bg: var(--santa-border);
+}
+
+/* Modal windows */
+:root[data-mode="dark"] .modal-content {
+    background-color: var(--santa-surface);
+    color: var(--santa-text);
+    border-color: var(--santa-border);
+}
+
+:root[data-mode="dark"] .modal-header,
+:root[data-mode="dark"] .modal-footer {
+    border-color: var(--santa-border);
+}
+
+/* Close buttons */
+:root[data-mode="dark"] .btn-close {
+    filter: invert(1) grayscale(100%);
+}
+
+/* Horizontal separators */
+:root[data-mode="dark"] hr {
+    border-color: var(--santa-separator);
+}

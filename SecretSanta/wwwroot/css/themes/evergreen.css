@@ -1,0 +1,63 @@
+
+:root[data-theme="evergreen"] {
+
+    /* Primary palette */
+    --santa-red: #a64b50;
+    --santa-red-dark: #85363d;
+    --santa-green: #52796f;
+    --santa-green-dark: #214e34;
+    --santa-yellow: #c6a15b;
+    --santa-yellow-light: #e4c58a;
+    --santa-cream: #f7f3e8;
+
+    /* Backgrounds and surfaces */
+    --santa-surface: #ffffff;
+    --santa-surface-alt: #fffdf5;
+    --santa-hero-end: #eee9d8;
+    --santa-form-header-end: #f0eddf;
+
+    /* Typography */
+    --santa-text: #293b32;
+    --santa-muted: #68736a;
+    --santa-text-subtle: #7d897f;
+    --santa-text-on-accent: #293b32;
+
+    /* Borders */
+    --santa-border: #dedfce;
+    --santa-input-border: #cdd5c8;
+    --santa-separator: #b8c0b0;
+    --santa-border-subtle: #e5e8dc;
+    --santa-border-hover: #b9cebf;
+    --santa-green-border: #c7d9cb;
+    --santa-invite-border: #bfd4c4;
+    --santa-yellow-border: #b9944e;
+
+    /* Empty states */
+    --santa-border-dashed: #c9d1c2;
+
+    /* Progress indicators */
+    --santa-progress-track: #e1e6db;
+
+    /* Soft accent backgrounds */
+    --santa-red-soft: #f3e3e3;
+    --santa-green-soft: #e0ebe2;
+    --santa-yellow-soft: #f3ead2;
+    --santa-cta-bg: #e8eddf;
+    --santa-invite-soft: #e6f0e7;
+
+    /* Additional accent colors */
+    --santa-yellow-dark: #785b24;
+    --santa-gold: #b08a43;
+    --santa-green-light: #83ad91;
+
+    /* Navbar */
+    --santa-navbar-start: #214e34;
+    --santa-navbar-end: #52796f;
+
+    /* RGB channels for transparent colors */
+    --santa-green-rgb: 82, 121, 111;
+    --santa-green-dark-rgb: 33, 78, 52;
+    --santa-yellow-rgb: 198, 161, 91;
+    --santa-shadow-rgb: 41, 59, 50;
+    --santa-art-shadow-rgb: 41, 59, 50;
+}
